@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Image, ScrollView } from 'react-native';
 
-const Register = ({  }) => {
-  const [email, setEmail] = useState('');
+const Register = ({ navigation }) => {
+  const [name, setName] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.logoContainer}>
         <Image
           source={require('../org-logo.png')}
@@ -18,44 +20,42 @@ const Register = ({  }) => {
       </View>
       <Text style={styles.title}>Register</Text>
 
-      {/* Email Input */}
+      {/* Name Input */}
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>NAME</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
-            placeholder='youremail@example.com'
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
+            placeholder="Enter your name"
+            value={name}
+            onChangeText={setName}
           />
         </View>
       </View>
+
+      {/* Mobile Input */}
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>MOBILE</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
-            placeholder='youremail@example.com'
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
+            placeholder="Enter your mobile number"
+            value={mobile}
+            onChangeText={setMobile}
+            keyboardType="phone-pad"
           />
         </View>
       </View>
 
+      {/* Username Input */}
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>USERNAME</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
-            placeholder='youremail@example.com'
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
+            placeholder="Choose a username"
+            value={username}
+            onChangeText={setUsername}
           />
         </View>
       </View>
@@ -66,7 +66,7 @@ const Register = ({  }) => {
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
-            placeholder='your password'
+            placeholder="Enter your password"
             secureTextEntry
             value={password}
             onChangeText={setPassword}
@@ -74,20 +74,21 @@ const Register = ({  }) => {
         </View>
       </View>
 
+      {/* Confirm Password Input */}
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabel}>CONFIRM PASSWORD</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
-            placeholder='your password'
+            placeholder="Confirm your password"
             secureTextEntry
-            value={password}
-            onChangeText={setPassword}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
           />
         </View>
       </View>
 
-      {/* Login Button */}
+      {/* Register Button */}
       <TouchableOpacity style={styles.button} disabled={isLoading}>
         {isLoading ? (
           <ActivityIndicator color="#fff" />
@@ -95,7 +96,15 @@ const Register = ({  }) => {
           <Text style={styles.buttonText}>REGISTER</Text>
         )}
       </TouchableOpacity>
-    </View>
+
+      {/* Already have an account? Link */}
+      <View style={styles.linkContainer}>
+        <Text style={styles.linkText}>Already have an account?</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.linkTextBold}>Login here</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -108,21 +117,11 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
-  orgLogoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  orgLogo: {
-    width: 70,
-    height: 70,
-    marginHorizontal: 10,
-  },
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    flexGrow: 1,
+    justifyContent: 'flex-start', // Adjust the content alignment
     paddingHorizontal: 20,
+    paddingVertical: 10,
     backgroundColor: '#FFFFFF',
   },
   title: {
@@ -130,26 +129,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1E293B',
     textAlign: 'center',
-    marginBottom: 5,
-    marginTop: 5,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#64748B',
-    textAlign: 'center',
-    marginBottom: 25,
-  },
-  beforeSubtitle: {
-    fontSize: 20,
-    color: '#64748B',
-    textAlign: 'center',
-    marginBottom: 5,
-  },
-  orgTitle: {
-    fontSize: 16,
-    color: '#64748B',
-    textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: 20,
   },
   inputContainer: {
     marginBottom: 20,
@@ -187,6 +167,22 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
+  },
+  linkContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  linkText: {
+    fontSize: 16,
+    color: '#475569',
+  },
+  linkTextBold: {
+    fontSize: 16,
+    color: '#1E293B',
+    fontWeight: 'bold',
+    marginLeft: 5,
   },
 });
 

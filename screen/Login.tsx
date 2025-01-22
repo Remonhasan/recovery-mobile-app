@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Image } from 'react-native';
 
-const LoginScreen = ({  }) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -52,9 +52,17 @@ const LoginScreen = ({  }) => {
         {isLoading ? (
           <ActivityIndicator color="#fff" />
         ) : (
+          <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
           <Text style={styles.buttonText}>LOGIN</Text>
+        </TouchableOpacity>
         )}
       </TouchableOpacity>
+      <View style={styles.registerContainer}>
+        <Text style={styles.registerText}>Not registered yet?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.createAccountText}>Create New Account</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -147,6 +155,22 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
+  },
+  registerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  registerText: {
+    fontSize: 16,
+    color: '#475569',
+  },
+  createAccountText: {
+    fontSize: 16,
+    color: '#1E293B',
+    fontWeight: 'bold',
+    marginLeft: 5,
   },
 });
 
