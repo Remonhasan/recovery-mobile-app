@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 
 const Deposit = () => {
   const [amount, setAmount] = useState('');
   const [transactionNumber, setTransactionNumber] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+
+  // Payload
+  const payload = {
+      amount : amount,
+      tnx_number : transactionNumber,
+      payment_method : selectedPaymentMethod
+  };
 
   const handlePaymentMethodSelect = (method: string) => {
     setSelectedPaymentMethod(method);
@@ -59,23 +66,29 @@ const Deposit = () => {
         ))}
       </View>
 
+       <View style={styles.balanceContainer}>
+              <Text style={styles.paymentText}>Select Payment Method</Text>
+       </View>
       <View style={styles.paymentMethodContainer}>
         <TouchableOpacity
           style={[styles.paymentMethod, selectedPaymentMethod === 'Bkash' && styles.selectedPaymentMethod]}
           onPress={() => handlePaymentMethodSelect('Bkash')}
         >
+          <Image source={require('../bkashLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
           <Text style={styles.paymentMethodText}>Bkash</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.paymentMethod, selectedPaymentMethod === 'Nogod' && styles.selectedPaymentMethod]}
           onPress={() => handlePaymentMethodSelect('Nogod')}
         >
+          <Image source={require('../nogodLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
           <Text style={styles.paymentMethodText}>Nogod</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.paymentMethod, selectedPaymentMethod === 'Rocket' && styles.selectedPaymentMethod]}
           onPress={() => handlePaymentMethodSelect('Rocket')}
         >
+          <Image source={require('../rocketLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
           <Text style={styles.paymentMethodText}>Rocket</Text>
         </TouchableOpacity>
       </View>
@@ -96,6 +109,10 @@ const styles = StyleSheet.create({
   headerContainer: {
     marginBottom: 20,
   },
+  paymentLogo: {
+    width: 50,
+    height: 50,
+  },
   headerText: {
     fontSize: 16,
     marginBottom: 5,
@@ -105,6 +122,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   balanceText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color : "#0E9C7E",
+  },
+  paymentText: {
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -128,8 +150,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   amountOption: {
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: 2,
+    borderColor: '#0E9C7E',
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
@@ -153,13 +175,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedPaymentMethod: {
-    borderColor: 'blue',
+    borderColor: '#0E9C7E',
   },
   paymentMethodText: {
     fontSize: 16,
+    fontWeight: 'bold',
   },
   submitButton: {
-    backgroundColor: 'green',
+    backgroundColor: '#0E9C7E',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
