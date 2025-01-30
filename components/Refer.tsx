@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
     padding: 20,
     borderRadius: 10,
+    borderColor: '#0E9C7E',
+    borderWidth: 1,
   },
   inputBox: {
     borderWidth: 1,
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   copyButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#0E9C7E',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
   copyButtonText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold'
   },
   description: {
     fontSize: 14,
