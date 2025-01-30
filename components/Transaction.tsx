@@ -53,11 +53,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    backgroundColor: '#0E9C7E',
   },
   headerCell: {
     flex: 1,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginTop : 10,
   },
   row: {
     flexDirection: 'row',
