@@ -44,6 +44,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
     padding: 20,
     borderRadius: 10,
+    borderTopColor : '#0E9C7E',
+    borderTopWidth: 5,
+    borderColor : '#0E9C7E',
+    borderWidth: 2,
   },
   cardTitle: {
     fontSize: 18,
