@@ -33,19 +33,19 @@ const Profile = () => {
       {/* Additional Info Section */}
       <View style={styles.infoSection}>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Total Package:</Text>
+          <Text style={styles.infoLabel}>Total Package :</Text>
           <Text style={styles.infoValue}>10</Text>
         </View>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Total Refer Code:</Text>
+          <Text style={styles.infoLabel}>Total Refer Code :</Text>
           <Text style={styles.infoValue}>5</Text>
         </View>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Total Referred:</Text>
+          <Text style={styles.infoLabel}>Total Referred :</Text>
           <Text style={styles.infoValue}>50</Text>
         </View>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Completed Tasks:</Text>
+          <Text style={styles.infoLabel}>Completed Tasks :</Text>
           <Text style={styles.infoValue}>20</Text>
         </View>
       </View>
@@ -89,6 +89,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     marginHorizontal: 5,
+    borderTopColor : '#0E9C7E',
+    borderTopWidth: 5,
+    borderColor : '#0E9C7E',
+    borderWidth: 2,
   },
   cardTitle: {
     fontSize: 16,
@@ -103,6 +107,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
     padding: 15,
     borderRadius: 10,
+    borderColor : '#0E9C7E',
+    borderWidth: 2,
   },
   infoRow: {
     flexDirection: 'row',
