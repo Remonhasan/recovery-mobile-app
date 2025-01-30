@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { toBn } from '../utils/util';
 
 const Deposit = () => {
+  const { t, i18n } = useTranslation();
   const [amount, setAmount] = useState('');
   const [transactionNumber, setTransactionNumber] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -38,36 +41,38 @@ const Deposit = () => {
       </View>
 
       <View style={styles.balanceContainer}>
-        <Text style={styles.balanceText}>Balance: 0 BDT</Text>
+        <Text style={styles.balanceText}>{t('Balance')} : ৳ {i18n.language == 'en' ? 0 : toBn(0)}</Text>
       </View>
 
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Enter Amount"
+          placeholder={t('Enter Amount')}
           value={amount}
           onChangeText={setAmount}
           keyboardType="numeric"
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter Transaction Number"
+          placeholder={t('Enter Transaction Number')}
           value={transactionNumber}
           onChangeText={setTransactionNumber}
         />
-        <Text style={styles.minDepositText}>Minimum deposit 500 BDT</Text>
+        <Text style={styles.minDepositText}>{t('Minimum deposit 500 BDT')}</Text>
       </View>
 
       <View style={styles.amountOptionsContainer}>
         {[500, 1000, 2000, 3000, 5000, 6000, 9000, 15000, 20000, 25000].map((value) => (
           <TouchableOpacity key={value} style={styles.amountOption} onPress={() => setAmount(value.toString())}>
-            <Text style={styles.amountOptionText}>{value}</Text>
+            <Text style={styles.amountOptionText}>
+            {i18n.language === 'en' ? value : toBn(value)}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
 
        <View style={styles.balanceContainer}>
-              <Text style={styles.paymentText}>Select Payment Method</Text>
+              <Text style={styles.paymentText}>{t('Select Payment Method')}</Text>
        </View>
       <View style={styles.paymentMethodContainer}>
         <TouchableOpacity
@@ -75,26 +80,26 @@ const Deposit = () => {
           onPress={() => handlePaymentMethodSelect('Bkash')}
         >
           <Image source={require('../bkashLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
-          <Text style={styles.paymentMethodText}>Bkash</Text>
+          <Text style={styles.paymentMethodText}>{t('Bkash')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.paymentMethod, selectedPaymentMethod === 'Nogod' && styles.selectedPaymentMethod]}
           onPress={() => handlePaymentMethodSelect('Nogod')}
         >
           <Image source={require('../nogodLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
-          <Text style={styles.paymentMethodText}>Nogod</Text>
+          <Text style={styles.paymentMethodText}>{t('Nogod')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.paymentMethod, selectedPaymentMethod === 'Rocket' && styles.selectedPaymentMethod]}
           onPress={() => handlePaymentMethodSelect('Rocket')}
         >
           <Image source={require('../rocketLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
-          <Text style={styles.paymentMethodText}>Rocket</Text>
+          <Text style={styles.paymentMethodText}>{t('Rocket')}</Text>
         </TouchableOpacity>
       </View>
 
       <TouchableOpacity style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>Submit</Text>
+        <Text style={styles.submitButtonText}>{t('Submit')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -159,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   amountOptionText: {
-    fontSize: 16,
+    fontSize: 20,
   },
   paymentMethodContainer: {
     flexDirection: 'row',

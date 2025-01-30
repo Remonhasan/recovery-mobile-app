@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { toBn } from '../utils/util';
 
 const Withdraw = () => {
+  const { t, i18n } = useTranslation();
   const [amount, setAmount] = useState('');
   const [transactionNumber, setTransactionNumber] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -26,7 +29,7 @@ const Withdraw = () => {
       </View>
 
       <View style={styles.balanceContainer}>
-        <Text style={styles.balanceText}>Balance: 0 BDT</Text>
+        <Text style={styles.balanceText}>{t('Balance')} : ৳ {i18n.language == 'en' ? 0 : toBn(0)}</Text>
       </View>
 
       <View style={styles.paymentMethodContainer}>
@@ -35,45 +38,45 @@ const Withdraw = () => {
           onPress={() => handlePaymentMethodSelect('Nogod')}
         >
           <Image source={require('../nogodLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
-          <Text style={styles.paymentMethodText}>Nogod</Text>
+          <Text style={styles.paymentMethodText}>{t('Nogod')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.paymentMethod, selectedPaymentMethod === 'Rocket' && styles.selectedPaymentMethod]}
           onPress={() => handlePaymentMethodSelect('Rocket')}
         >
           <Image source={require('../rocketLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
-          <Text style={styles.paymentMethodText}>Rocket</Text>
+          <Text style={styles.paymentMethodText}>{t('Rocket')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.paymentMethod, selectedPaymentMethod === 'Bkash' && styles.selectedPaymentMethod]}
           onPress={() => handlePaymentMethodSelect('Bkash')}
         >
           <Image source={require('../bkashLogo.png')} style={styles.paymentLogo} resizeMode="contain" />
-          <Text style={styles.paymentMethodText}>Bkash</Text>
+          <Text style={styles.paymentMethodText}>{t('Bkash')}</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Mobile Number :</Text>
+        <Text style={styles.label}>{t('Mobile Number')} :</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter Mobile Number"
+          placeholder={t('Enter Mobile Number')}
           value={number}
           onChangeText={setNumber}
         />
-        <Text style={styles.label}>Amount :</Text>
+        <Text style={styles.label}>{t('Amount')} :</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter Amount"
+          placeholder={t('Enter Amount')}
           value={amount}
           onChangeText={setAmount}
           keyboardType="numeric"
         />
-        <Text style={styles.minDepositText}>Minimum withdraw 500 BDT</Text>
+        <Text style={styles.minDepositText}>{t('Minimum withdraw 500 BDT')}</Text>
       </View>
 
       <TouchableOpacity style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>Submit</Text>
+        <Text style={styles.submitButtonText}>{t('Submit')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

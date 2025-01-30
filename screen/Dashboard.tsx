@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const Dashboard = ({ navigation }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const { t, i18n } = useTranslation();
 
   // Function to handle hover effect
   const handlePressIn = (index) => {
@@ -22,7 +24,7 @@ const Dashboard = ({ navigation }) => {
           resizeMode="contain"
         />
       </View>
-      <Text style={styles.title}>All Services</Text>
+      <Text style={styles.title}>{t('All Services')}</Text>
 
       {/* Card Block Container */}
       <View style={styles.cardsContainer}>
@@ -37,7 +39,7 @@ const Dashboard = ({ navigation }) => {
           onPress={() => navigation.navigate('Daily Work')}
         >
           <Image source={require('../daily-work.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>Daily Work</Text>
+          <Text style={styles.cardTitle}>{t('Daily Work')}</Text>
         </TouchableOpacity>
 
         {/* Card 2 */}
@@ -51,7 +53,7 @@ const Dashboard = ({ navigation }) => {
           onPress={() => navigation.navigate('Deposit')}
         >
           <Image source={require('../deposit.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>Deposit</Text>
+          <Text style={styles.cardTitle}>{t('Deposit')}</Text>
         </TouchableOpacity>
 
         {/* Card 3 */}
@@ -65,7 +67,7 @@ const Dashboard = ({ navigation }) => {
           onPress={() => navigation.navigate('Withdraw')}
         >
           <Image source={require('../withdraw.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>Withdraw</Text>
+          <Text style={styles.cardTitle}>{t('Withdraw')}</Text>
         </TouchableOpacity>
 
         {/* Card 4 */}
@@ -79,7 +81,7 @@ const Dashboard = ({ navigation }) => {
           onPress={() => navigation.navigate('Package')}
         >
           <Image source={require('../package.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>Packages</Text>
+          <Text style={styles.cardTitle}>{t('Package')}</Text>
         </TouchableOpacity>
 
         {/* Card 5 */}
@@ -93,7 +95,7 @@ const Dashboard = ({ navigation }) => {
           onPress={() => navigation.navigate('Profile')}
         >
           <Image source={require('../profile.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>Profile</Text>
+          <Text style={styles.cardTitle}>{t('Profile')}</Text>
         </TouchableOpacity>
 
         {/* Card 6 */}
@@ -107,7 +109,7 @@ const Dashboard = ({ navigation }) => {
           onPress={() => navigation.navigate('Refer')}
         >
           <Image source={require('../refer.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>Refer</Text>
+          <Text style={styles.cardTitle}>{t('Refer')}</Text>
         </TouchableOpacity>
 
         {/* Card 7 */}
@@ -121,7 +123,7 @@ const Dashboard = ({ navigation }) => {
           onPress={() => navigation.navigate('Transaction')}
         >
           <Image source={require('../transection.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>Transaction</Text>
+          <Text style={styles.cardTitle}>{t('Transaction')}</Text>
         </TouchableOpacity>
 
         {/* Card 8 */}
@@ -135,7 +137,7 @@ const Dashboard = ({ navigation }) => {
           onPress={() => navigation.navigate('Helpline')}
         >
           <Image source={require('../helpline.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>Helpline</Text>
+          <Text style={styles.cardTitle}>{t('Helpline')}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -187,6 +189,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
+    borderTopColor : '#0E9C7E',
+    borderTopWidth: 5,
+    borderColor : '#0E9C7E',
+    borderWidth: 1,
     transition: 'all 0.3s ease', // This won't work in React Native, but it's included for reference.
   },
   cardHovered: {

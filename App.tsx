@@ -23,10 +23,13 @@ import Transaction from './components/Transaction';
 import Profile from './components/Profile';
 import Refer from './components/Refer';
 import HelpLine from './components/HelpLine';
+import { useTranslation } from 'react-i18next';
+import LanguageToggle from './lang/LanguageToggle';
 
 const Stack = createStackNavigator();
 
 function App(): React.JSX.Element {
+    const { t, i18n } = useTranslation();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
@@ -50,7 +53,12 @@ function App(): React.JSX.Element {
               component={Dashboard}
               options={{ 
                 headerLeft: null,
-                headerShown: true 
+                headerShown: true,
+                headerRight: () => (
+                    <View style={{ marginRight: 15 }}>
+                      <LanguageToggle />
+                    </View>
+                ),
               }}
             />
             <Stack.Screen
