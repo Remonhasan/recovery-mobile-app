@@ -1,7 +1,11 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { toBn } from '../utils/util';
 
 const Profile = () => {
+  const { t, i18n } = useTranslation();
+
   return (
     <ScrollView style={styles.container}>
       {/* User Info Section */}
@@ -17,36 +21,36 @@ const Profile = () => {
       {/* Card Block Section */}
       <View style={styles.cardSection}>
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Total Deposit</Text>
-          <Text style={styles.cardValue}>$5000</Text>
+          <Text style={styles.cardTitle}>{t('Total Deposit')}</Text>
+          <Text style={styles.cardValue}>৳ {i18n.language == 'en' ? 500 : toBn(500)}</Text>
         </View>
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Total Withdraw</Text>
-          <Text style={styles.cardValue}>$2000</Text>
+          <Text style={styles.cardTitle}>{t('Total Withdraw')}</Text>
+          <Text style={styles.cardValue}>৳ {i18n.language == 'en' ? 2000 : toBn(2000)}</Text>
         </View>
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Available Balance</Text>
-          <Text style={styles.cardValue}>$3000</Text>
+          <Text style={styles.cardTitle}>{t('Available Balance')}</Text>
+          <Text style={styles.cardValue}>৳ {i18n.language == 'en' ? 3000 : toBn(3000)}</Text>
         </View>
       </View>
 
       {/* Additional Info Section */}
       <View style={styles.infoSection}>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Total Package :</Text>
-          <Text style={styles.infoValue}>10</Text>
+          <Text style={styles.infoLabel}>{t('Total Package')} :</Text>
+          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? 10 : toBn(10)}</Text>
         </View>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Total Refer Code :</Text>
-          <Text style={styles.infoValue}>5</Text>
+          <Text style={styles.infoLabel}>{t('Total Refer Code')} :</Text>
+          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? 5 : toBn(5)}</Text>
         </View>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Total Referred :</Text>
-          <Text style={styles.infoValue}>50</Text>
+          <Text style={styles.infoLabel}>{t('Total Referred')} :</Text>
+          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? 50 : toBn(50)}</Text>
         </View>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Completed Tasks :</Text>
-          <Text style={styles.infoValue}>20</Text>
+          <Text style={styles.infoLabel}>{t('Completed Tasks')} :</Text>
+          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? 20 : toBn(20)}</Text>
         </View>
       </View>
     </ScrollView>

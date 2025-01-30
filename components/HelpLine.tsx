@@ -1,21 +1,25 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { toBn } from '../utils/util';
 
 const Helpline = () => {
+  const { t, i18n } = useTranslation();
+
   return (
     <ScrollView style={styles.container}>
       {/* Header Section */}
       <View style={styles.headerSection}>
-        <Text style={styles.title}>Need Help?</Text>
-        <Text style={styles.subtitle}>We are Here for You!</Text>
+        <Text style={styles.title}>{t('Need Help?')}</Text>
+        <Text style={styles.subtitle}>{t('We are Here for You!')}</Text>
       </View>
 
       {/* Card Section */}
       <View style={styles.cardSection}>
-        <Text style={styles.cardTitle}>Contact Our Support Team</Text>
-        <Text style={styles.cardText}>WhatsApp: 01762666121</Text>
-        <Text style={styles.cardText}>Email: recoveryit75@gmail.com</Text>
-        <Text style={styles.cardText}>Facebook: Recovery IT</Text>
+        <Text style={styles.cardTitle}>{t('Contact Our Support Team')}</Text>
+        <Text style={styles.cardText}>{t('WhatsApp')} : 01762666121</Text>
+        <Text style={styles.cardText}>{t('Email')} : recoveryit75@gmail.com</Text>
+        <Text style={styles.cardText}>{t('Facebook')} : Recovery IT</Text>
       </View>
     </ScrollView>
   );

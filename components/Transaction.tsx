@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { toBn } from '../utils/util';
 
 const transactions = [
   { id: 1, date: '2025-01-01', type: 'Withdraw', amount: '3000' },
@@ -8,6 +10,8 @@ const transactions = [
 ];
 
 const Transaction = () => {
+  const { t, i18n } = useTranslation();
+
   const renderItem = ({ item }: { item: { date: string; type: string; amount: string } }) => (
     <View style={styles.row}>
       <Text style={styles.cell}>{item.date}</Text>
@@ -20,11 +24,11 @@ const Transaction = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Transactions</Text>
+      <Text style={styles.header}>{t('Transactions')}</Text>
       <View style={styles.tableHeader}>
-        <Text style={styles.headerCell}>Date</Text>
-        <Text style={styles.headerCell}>Type</Text>
-        <Text style={styles.headerCell}>Amount</Text>
+        <Text style={styles.headerCell}>{t('Date')}</Text>
+        <Text style={styles.headerCell}>{t('Type')}</Text>
+        <Text style={styles.headerCell}>{t('Amount')}</Text>
       </View>
       <FlatList
         data={transactions}

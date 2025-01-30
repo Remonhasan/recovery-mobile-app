@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { toBn } from '../utils/util';
 
 const PackageList = [
   { id: 1, title: 'কম্বো প্যাকেজ -১', price: 6000, description: 'কম্বো প্যাকেজ -২ কোর্সের নাম-Success of Freelancing কোর্স বিস্তারিত- - ১) ডাটা এন্ট্রি বেসিক টু এ্যাডভান্সড ২) ডিজিটাল মার্কেটিং বেসিক টু এ্যাডভান্সড ৩) গ্রাফিক্স ডিজাইন বেসিক টু এ্যাডভান্সড উপরের ৩ টি কোর্সের কম্বো প্যাকেজ, যার কোর্স কোর্স ফি ২৪,০০০ টাকা প্রথমে ১২,০০০ টাকা দিয়ে ভর্তি হতে হবে এবং বাকি ১২,০০০ ইনকাম করার পর পরিষোধ করতে পারবেন। ভর্তির ১ম দিন থেকেই মিনিমাম ২০০ টাকা ইনকাম।প্রতিদিন ৫ টি টাক্স,প্রতি টাক্স ৪০ টাকা। নোটঃ- ৫০% ছাড়ে ৬০০০ টাকা দিয়ে ভর্তি হতে পারবেন।' },
@@ -10,6 +12,7 @@ const PackageList = [
 ];
 
 const Package = () => {
+  const { t, i18n } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
 
@@ -20,15 +23,15 @@ const Package = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Choose Your Package</Text>
+      <Text style={styles.header}>{t('Choose Your Package')}</Text>
       <View style={styles.packageContainer}>
         {PackageList.map((pkg) => (
           <View key={pkg.id} style={styles.card}>
             <Text style={styles.cardTitle}>🔥🔥 {pkg.title}</Text>
-            <Text style={styles.cardPrice}>৳ {pkg.price} BDT</Text>
+            <Text style={styles.cardPrice}>৳ {i18n.language == 'en' ? pkg.price : toBn(pkg.price)} </Text>
             <Text style={styles.cardDescription}>{pkg.description}</Text>
             <TouchableOpacity style={styles.buyButton} onPress={() => handleBuyNow(pkg)}>
-              <Text style={styles.buyButtonText}>Buy Now</Text>
+              <Text style={styles.buyButtonText}>{t('Buy Now')}</Text>
             </TouchableOpacity>
           </View>
         ))}
@@ -38,13 +41,13 @@ const Package = () => {
       <Modal visible={modalVisible} transparent animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Are you sure you want to buy this package?</Text>
+            <Text style={styles.modalText}>{t('Are you sure you want to buy this package?')}</Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.modalButtonYes} onPress={() => setModalVisible(false)}>
-                <Text style={styles.modalButtonText}>Yes</Text>
+                <Text style={styles.modalButtonText}>{t('Yes')}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.modalButtonCancel} onPress={() => setModalVisible(false)}>
-                <Text style={styles.modalButtonText}>Cancel</Text>
+                <Text style={styles.modalButtonText}>{t('Cancel')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   cardPrice: {
-    fontSize: 16,
+    fontSize: 25,
     color: '#0E9C7E',
     fontWeight: 'bold',
     marginBottom: 8,

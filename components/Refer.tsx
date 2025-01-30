@@ -1,27 +1,31 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { toBn } from '../utils/util';
 
 const Refer = () => {
+  const { t, i18n } = useTranslation();
+
   return (
     <ScrollView style={styles.container}>
       {/* Reference Section */}
       <View style={styles.referenceSection}>
-        <Text style={styles.title}>Your Reference Link</Text>
-        <Text style={styles.totalReferred}>Total Referred : 50</Text>
+        <Text style={styles.title}>{t('Your Reference Link')}</Text>
+        <Text style={styles.totalReferred}>{t('Total Referred')} : ৳ {i18n.language == 'en' ? 50 : toBn(50)}</Text>
       </View>
 
       {/* Referral URL Section */}
       <View style={styles.cardSection}>
         <TextInput
           style={styles.inputBox}
-          placeholder="Enter your referral URL"
+          placeholder={t('Enter your referral URL')}
           value="https://example.com/referral"
         />
         <TouchableOpacity style={styles.copyButton}>
-          <Text style={styles.copyButtonText}>Copy</Text>
+          <Text style={styles.copyButtonText}>{t('Copy')}</Text>
         </TouchableOpacity>
         <Text style={styles.description}>
-          You will get 10% commission on the amount deposited by the person you refer. If your refer joiner deposits 50,000 BDT, then you will get instant 5,000 BDT and you can withdraw that money instantly.
+          {t('You will get 10% commission on the amount deposited by the person you refer. If your refer joiner deposits 50,000 BDT, then you will get instant 5,000 BDT and you can withdraw that money instantly.')}
         </Text>
       </View>
     </ScrollView>
