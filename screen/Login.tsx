@@ -6,7 +6,6 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -52,14 +51,14 @@ const LoginScreen = ({ navigation }) => {
         {isLoading ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
+          <TouchableOpacity onPress={() => navigation.navigate('DashboardTabs')}>
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
         )}
       </TouchableOpacity>
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>Not registered yet?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <TouchableOpacity onPress={() => navigation.navigate('DashboardTabs')}>
           <Text style={styles.createAccountText}>Create New Account</Text>
         </TouchableOpacity>
       </View>

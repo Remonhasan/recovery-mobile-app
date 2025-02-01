@@ -36,7 +36,7 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(0)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate('Daily Work')}
+          onPress={() => navigation.navigate(t('Daily Work'))}
         >
           <Image source={require('../daily-work.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Daily Work')}</Text>
@@ -50,7 +50,7 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(1)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate('Deposit')}
+          onPress={() => navigation.navigate(t('Deposit'))}
         >
           <Image source={require('../deposit.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Deposit')}</Text>
@@ -64,7 +64,7 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(2)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate('Withdraw')}
+          onPress={() => navigation.navigate(t('Withdraw'))}
         >
           <Image source={require('../withdraw.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Withdraw')}</Text>
@@ -78,7 +78,7 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(3)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate('Package')}
+          onPress={() => navigation.navigate(t('Package'))}
         >
           <Image source={require('../package.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Package')}</Text>
@@ -92,7 +92,7 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(4)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.navigate(t('Profile'))}
         >
           <Image source={require('../profile.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Profile')}</Text>
@@ -106,7 +106,7 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(5)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate('Refer')}
+          onPress={() => navigation.navigate(t('Refer'))}
         >
           <Image source={require('../refer.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Refer')}</Text>
@@ -120,7 +120,7 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(6)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate('Transaction')}
+          onPress={() => navigation.navigate(t('Transaction'))}
         >
           <Image source={require('../transection.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Transaction')}</Text>
@@ -134,7 +134,7 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(7)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate('Helpline')}
+          onPress={() => navigation.navigate(t('Helpline'))}
         >
           <Image source={require('../helpline.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Helpline')}</Text>
