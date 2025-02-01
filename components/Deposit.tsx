@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: '#fff',
     fontSize: 18,
+    fontWeight: 'bold'
   },
 });
 
