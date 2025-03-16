@@ -1,4 +1,6 @@
 import React from 'react';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -26,6 +28,8 @@ import Refer from './components/Refer';
 import HelpLine from './components/HelpLine';
 import LanguageToggle from './lang/LanguageToggle';
 
+
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -33,10 +37,39 @@ const LogoutButton = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
+  const handleLogout = async (navigation: any) => {
+    try {
+      // Remove from session
+      await AsyncStorage.removeItem('accessToken');
+      
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: t('Logged out successfully !'),
+        text2: t('You have been logged out of the app.'),
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+
+      navigation.replace('Login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: t('Logout Failed!'),
+        text2: t('An error occurred while logging out. Please try again.'),
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+    }
+  };
+
+
   return (
     <TouchableOpacity
       style={styles.logoutButton}
-      onPress={() => navigation.replace('Login')}
+      onPress={() => handleLogout(navigation)}
     >
       <Image
         source={require('./logout-icon.png')}
@@ -81,7 +114,7 @@ const DashboardTabs = () => {
       />
       <Tab.Screen
         name={t('Logout')}
-        component={View}
+        component={() => null}
         options={{
           tabBarButton: () => <LogoutButton />,
           tabBarLabel: () => null,

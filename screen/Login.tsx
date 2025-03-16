@@ -1,3 +1,5 @@
+import { fetch } from 'react-native-ssl-pinning';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Image } from 'react-native';
 
@@ -5,6 +7,56 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async () => {
+    // if (email.trim() === '' || password.trim() === '') {
+    //   Alert.alert('Error', 'Please fill in both fields.');
+    //   return;
+    // }
+
+    // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    // if (!emailRegex.test(email)) {
+    //   Alert.alert('Error', 'Please enter a valid email address.');
+    //   return;
+    // }
+
+    setIsLoading(true);
+
+    const payLoad = {
+      username: email,
+      password,
+    };
+    try {
+      const response = await fetch('https://tr.recoveryitltd.com/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payLoad),
+        sslPinning: {
+          certs: ['mycert'],
+        },
+      });
+
+      const data = await response.json();
+  
+      if (data.success === true) { // check your json response
+        setIsLoading(false);
+
+        const accessToken = data?.data.token;
+        await AsyncStorage.setItem('accessToken', accessToken);
+
+        navigation.navigate('DashboardTabs');
+      } else {
+        setIsLoading(false);
+        Alert.alert('Error', 'Invalid Credentials.' || 'Login failed.');
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log("login error:", error)
+      Alert.alert('Error', 'Certification Expired.');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -26,8 +78,6 @@ const LoginScreen = ({ navigation }) => {
             placeholder='youremail@example.com'
             value={email}
             onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
           />
         </View>
       </View>
@@ -47,15 +97,14 @@ const LoginScreen = ({ navigation }) => {
       </View>
 
       {/* Login Button */}
-      <TouchableOpacity style={styles.button} disabled={isLoading}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
         {isLoading ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <TouchableOpacity onPress={() => navigation.navigate('DashboardTabs')}>
           <Text style={styles.buttonText}>LOGIN</Text>
-        </TouchableOpacity>
         )}
       </TouchableOpacity>
+
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>Not registered yet?</Text>
         <TouchableOpacity onPress={() => navigation.navigate('DashboardTabs')}>
