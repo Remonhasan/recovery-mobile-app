@@ -31,7 +31,7 @@ const Package = () => {
   }, []);
 
 
-  // Load Schedule 
+  // Load Package 
   const loadData = async () => {
     setLoading(true);
     try {
