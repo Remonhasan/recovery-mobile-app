@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }) => {
     } catch (error) {
       setIsLoading(false);
       console.log("login error:", error)
-      Alert.alert('Error', 'Certification Expired.');
+      Alert.alert('Error', 'Check internet connection and valid credentials.');
     }
   };
 
