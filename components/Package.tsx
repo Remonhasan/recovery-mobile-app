@@ -49,7 +49,6 @@ const Package = () => {
       });
 
       const json = await response.json();
-      // console.log("Api data", json.packages)
       setData(json.packages);
     } catch (error) {
       console.error(error);
