@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { fetch } from 'react-native-ssl-pinning';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { toBn } from '../utils/util';
+// import Package from './Package';
 
 const PackageList = [
   { id: 1, title: 'কম্বো প্যাকেজ -১', price: 6000, description: 'কম্বো প্যাকেজ -২ কোর্সের নাম-Success of Freelancing কোর্স বিস্তারিত- - ১) ডাটা এন্ট্রি বেসিক টু এ্যাডভান্সড ২) ডিজিটাল মার্কেটিং বেসিক টু এ্যাডভান্সড ৩) গ্রাফিক্স ডিজাইন বেসিক টু এ্যাডভান্সড উপরের ৩ টি কোর্সের কম্বো প্যাকেজ, যার কোর্স কোর্স ফি ২৪,০০০ টাকা প্রথমে ১২,০০০ টাকা দিয়ে ভর্তি হতে হবে এবং বাকি ১২,০০০ ইনকাম করার পর পরিষোধ করতে পারবেন। ভর্তির ১ম দিন থেকেই মিনিমাম ২০০ টাকা ইনকাম।প্রতিদিন ৫ টি টাক্স,প্রতি টাক্স ৪০ টাকা। নোটঃ- ৫০% ছাড়ে ৬০০০ টাকা দিয়ে ভর্তি হতে পারবেন।' },
@@ -12,25 +17,76 @@ const PackageList = [
 ];
 
 const Package = () => {
+  const navigation = useNavigation();
   const { t, i18n } = useTranslation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleBuyNow = (pkg) => {
-    setSelectedPackage(pkg);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPackageId, setSelectedPackageId] = useState(null);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+
+  // Load Schedule 
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      const apiUrl = 'https://tr.recoveryitltd.com/api/package';
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: headers,
+        sslPinning: { certs: ['mycert'] },
+      });
+
+      const json = await response.json();
+      // console.log("Api data", json.packages)
+      setData(json.packages);
+    } catch (error) {
+      console.error(error);
+      setError('Error fetching data. Check internet connection.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log("Data", data)
+
+  const handleBuyNow = (id : any) => {
+    console.log("package id", id)
+    setSelectedPackageId(id);
     setModalVisible(true);
   };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={styles.loadingText}>{t('Loading, please wait...')}</Text>
+      </View>
+    );
+  }
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.header}>{t('Choose Your Package')}</Text>
       <View style={styles.packageContainer}>
-        {PackageList.map((pkg) => (
-          <View key={pkg.id} style={styles.card}>
-            <Text style={styles.cardTitle}>🔥🔥 {pkg.title}</Text>
-            <Text style={styles.cardPrice}>৳ {i18n.language == 'en' ? pkg.price : toBn(pkg.price)} </Text>
-            <Text style={styles.cardDescription}>{pkg.description}</Text>
-            <TouchableOpacity style={styles.buyButton} onPress={() => handleBuyNow(pkg)}>
+        {data?.map((item) => (
+          <View key={item.id} style={styles.card}>
+            <Text style={styles.cardTitle}>{item.name} | {t('Duration: ')} {item?.duration} {t('Month')}</Text>
+            <Text style={styles.cardPrice}>৳ {i18n.language == 'en' ? item.price : toBn(item.price)} </Text>
+            <Text style={styles.cardDescription}>{item.description}</Text>
+            <TouchableOpacity style={styles.buyButton} onPress={() => handleBuyNow(item?.id)}>
               <Text style={styles.buyButtonText}>{t('Buy Now')}</Text>
             </TouchableOpacity>
           </View>
@@ -53,6 +109,7 @@ const Package = () => {
           </View>
         </View>
       </Modal>
+
     </ScrollView>
   );
 };
@@ -88,8 +145,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
     alignItems: 'center',
-    borderWidth : 2,
-    borderColor : "#0E9C7E",
+    borderWidth: 2,
+    borderColor: "#0E9C7E",
   },
   cardTitle: {
     fontSize: 18,
@@ -166,6 +223,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    padding: 16,
+  },
+  loadingText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#17A2B8',
   },
 });
 
