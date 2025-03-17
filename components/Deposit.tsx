@@ -40,14 +40,15 @@ const Deposit = () => {
       const data = await response.json();
 
       if (data.status === 'success') {
-        Toast.show({
-          type: 'success',
-          position: 'top',
-          text1: t('Deposit Successfully !'),
-          text2: t('Your deposit has been successfully submitted !'),
-          visibilityTime: 3000,
-          autoHide: true,
-        });
+        // Toast.show({
+        //   type: 'success',
+        //   position: 'top',
+        //   text1: t('Deposit Successfully !'),
+        //   text2: t('Your deposit has been successfully submitted !'),
+        //   visibilityTime: 3000,
+        //   autoHide: true,
+        // });
+        Alert.alert('Success', 'Deposit Successfully !');
         navigation.navigate('DashboardTabs');
       } else {
         Toast.show({

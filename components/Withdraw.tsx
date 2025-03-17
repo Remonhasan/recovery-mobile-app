@@ -1,19 +1,68 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import Toast from 'react-native-toast-message';
+import { useNavigation } from '@react-navigation/native';
+import { fetch } from 'react-native-ssl-pinning';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { toBn } from '../utils/util';
 
 const Withdraw = () => {
+  const navigation = useNavigation();
   const { t, i18n } = useTranslation();
   const [amount, setAmount] = useState('');
-  const [transactionNumber, setTransactionNumber] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [number, setNumber] = useState('');
 
-  // Payload
-  const payload = {
-      phone_number : number,
-      amount : amount
+  const handleCreate = async () => {
+    try {
+      // Payload
+      const payload = {
+        phone_number: number,
+        amount: amount,
+        payment_method: selectedPaymentMethod
+      };
+
+      // POST request
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      const response = await fetch('https://tr.recoveryitltd.com/api/withdraw', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+        sslPinning: { certs: ['mycert'] },
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: t('Withdraw Successfully !'),
+          text2: t('Your withdraw has been successfully submitted !'),
+          visibilityTime: 3000,
+          autoHide: true,
+        });
+        navigation.navigate('DashboardTabs');
+      } else {
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: t('Withdraw Unsuccessful !'),
+          text2: t('Unable to withdraw deposit !'),
+          visibilityTime: 3000,
+          autoHide: true,
+        });
+      }
+    } catch (error) {
+      // console.error('Error during submission:', error.bodyString);
+      Alert.alert('Error', error.bodyString.toString());
+    }
   };
 
   const handlePaymentMethodSelect = (method: string) => {
@@ -75,7 +124,7 @@ const Withdraw = () => {
         <Text style={styles.minDepositText}>{t('Minimum withdraw 500 BDT')}</Text>
       </View>
 
-      <TouchableOpacity style={styles.submitButton}>
+      <TouchableOpacity style={styles.submitButton} onPress={handleCreate}>
         <Text style={styles.submitButtonText}>{t('Submit')}</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -107,7 +156,7 @@ const styles = StyleSheet.create({
   balanceText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color : "#0E9C7E",
+    color: "#0E9C7E",
   },
   paymentMethodContainer: {
     flexDirection: 'row',
