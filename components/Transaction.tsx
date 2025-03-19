@@ -1,20 +1,56 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { fetch } from 'react-native-ssl-pinning';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { toBn } from '../utils/util';
 
-const transactions = [
-  { id: 1, date: '2025-01-01', type: 'Withdraw', amount: '3000' },
-  { id: 2, date: '2025-02-01', type: 'Withdraw', amount: '5000'},
-  { id: 3, date: '2025-03-01', type: 'Withdraw', amount: '6000'},
-];
 
 const Transaction = () => {
+  const navigation = useNavigation();
   const { t, i18n } = useTranslation();
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const renderItem = ({ item }: { item: { date: string; type: string; amount: string } }) => (
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      const apiUrl = 'https://tr.recoveryitltd.com/api/transaction';
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: headers,
+        sslPinning: { certs: ['mycert'] },
+      });
+
+      if (response.status === 200) {
+        const json = await response.json();
+        setData(json.withdraw?.data || []);
+      } else {
+        setError('Error fetching data');
+      }
+    } catch (error) {
+      console.error(error);
+      setError('Error fetching data. Check internet connection.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderItem = ({ item }: { item: { created_at: string; type: string; amount: string } }) => (
     <View style={styles.row}>
-      <Text style={styles.cell}>{item.date}</Text>
+      <Text style={styles.cell}>{item.created_at}</Text>
       <Text style={styles.cell}>{item.type}</Text>
       <TouchableOpacity style={styles.actionButton}>
         <Text style={styles.actionButtonText}>{item.amount}</Text>
@@ -24,17 +60,26 @@ const Transaction = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{t('Transactions')}</Text>
-      <View style={styles.tableHeader}>
-        <Text style={styles.headerCell}>{t('Date')}</Text>
-        <Text style={styles.headerCell}>{t('Type')}</Text>
-        <Text style={styles.headerCell}>{t('Amount')}</Text>
-      </View>
-      <FlatList
-        data={transactions}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      <Text style={styles.header}>{t('Your Transactions')}</Text>
+
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : error ? (
+        <Text style={styles.errorText}>{error}</Text>
+      ) : (
+        <>
+          <View style={styles.tableHeader}>
+            <Text style={styles.headerCell}>{t('Date')}</Text>
+            <Text style={styles.headerCell}>{t('Type')}</Text>
+            <Text style={styles.headerCell}>{t('Action')}</Text>
+          </View>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={item => item?.id.toString()}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -63,7 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop : 10,
+    marginTop: 10,
   },
   row: {
     flexDirection: 'row',
@@ -86,6 +131,11 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: '#fff',
     fontSize: 14,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 
