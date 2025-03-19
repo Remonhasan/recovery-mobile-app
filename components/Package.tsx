@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { fetch } from 'react-native-ssl-pinning';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, ActivityIndicator, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { toBn } from '../utils/util';
-
 
 const Package = () => {
   const navigation = useNavigation();
@@ -14,16 +12,13 @@ const Package = () => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPackageId, setSelectedPackageId] = useState(null);
+  const [selectedPackageId, setSelectedPackageId] = useState<any>(null);
 
   useEffect(() => {
     loadData();
   }, []);
 
-
-  // Load Package 
   const loadData = async () => {
     setLoading(true);
     try {
@@ -50,12 +45,42 @@ const Package = () => {
     }
   };
 
-  console.log("Data", data)
-
-  const handleBuyNow = (id : any) => {
-    console.log("package id", id)
+  const handleBuyNow = (id: any) => {
     setSelectedPackageId(id);
     setModalVisible(true);
+  };
+
+  const confirmBuyNow = async () => {
+    setLoading(true);
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      const apiUrl = `https://tr.recoveryitltd.com/api/buy-package/${selectedPackageId}`;
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: headers,
+        sslPinning: { certs: ['mycert'] },
+      });
+
+      const json = await response.json();
+      if (json.status === 'success') {
+        Alert.alert('Success', 'You bought the package successfully!');
+        navigation.navigate('DashboardTabs');
+      }
+    } catch (error) {
+      Alert.alert('Error', error.bodyString.toString());
+    } finally {
+      setLoading(false);
+      setModalVisible(false); // Close the modal after the action
+    }
+  };
+
+  const cancelBuyNow = () => {
+    setModalVisible(false); // Close the modal without making any request
   };
 
   if (loading) {
@@ -66,7 +91,6 @@ const Package = () => {
       </View>
     );
   }
-
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -84,23 +108,22 @@ const Package = () => {
         ))}
       </View>
 
-      {/* Popup Modal */}
+      {/* Confirmation Modal */}
       <Modal visible={modalVisible} transparent animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>{t('Are you sure you want to buy this package?')}</Text>
             <View style={styles.modalButtons}>
-              <TouchableOpacity style={styles.modalButtonYes} onPress={() => setModalVisible(false)}>
+              <TouchableOpacity style={styles.modalButtonYes} onPress={confirmBuyNow}>
                 <Text style={styles.modalButtonText}>{t('Yes')}</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.modalButtonCancel} onPress={() => setModalVisible(false)}>
+              <TouchableOpacity style={styles.modalButtonCancel} onPress={cancelBuyNow}>
                 <Text style={styles.modalButtonText}>{t('Cancel')}</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
-
     </ScrollView>
   );
 };
