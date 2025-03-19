@@ -1,23 +1,92 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { fetch } from 'react-native-ssl-pinning';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { toBn } from '../utils/util';
-
-const tasks = [
-  { id: '1', task: 'Task 1', status: 'Pending', action: 'Start' },
-  { id: '2', task: 'Task 2', status: 'In Progress', action: 'Continue' },
-  { id: '3', task: 'Task 3', status: 'Completed', action: 'Review' },
-];
 
 const Dailywork = () => {
+  const navigation = useNavigation();
   const { t, i18n } = useTranslation();
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const renderItem = ({ item }: { item: { task: string; status: string; action: string } }) => (
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      const apiUrl = 'https://tr.recoveryitltd.com/api/daily-work';
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: headers,
+        sslPinning: { certs: ['mycert'] },
+      });
+
+      if (response.status === 200) {
+        const json = await response.json();
+        setData(json.withdraw || []);
+      } else {
+        setError('Error fetching data');
+      }
+    } catch (error) {
+      console.error(error);
+      setError('Error fetching data. Check internet connection.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleJob = async (jobId: any) => {
+    try {
+      // Payload
+      const payload = {
+        job_id: jobId
+      };
+
+      // POST request
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      const response = await fetch('https://tr.recoveryitltd.com/api/daily-work-action', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+        sslPinning: { certs: ['mycert'] },
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+
+        Alert.alert('Success', 'Job Completed Successfully !');
+        navigation.navigate('DashboardTabs');
+      }
+    } catch (error) {
+      Alert.alert('Error', error.bodyString.toString());
+    }
+  };
+
+
+
+  const renderItem = ({ item }: { item: { title: string; status: string; id: number, action: string } }) => (
     <View style={styles.row}>
-      <Text style={styles.cell}>{item.task}</Text>
+      <Text style={styles.cell}>{item.title}</Text>
       <Text style={styles.cell}>{item.status}</Text>
-      <TouchableOpacity style={styles.actionButton}>
-        <Text style={styles.actionButtonText}>{item.action}</Text>
+      <TouchableOpacity style={styles.actionButton} onPress={() => handleJob(item?.id)}>
+        <Text style={styles.actionButtonText}>{t('View')}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -25,16 +94,25 @@ const Dailywork = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{t('Complete Your Tasks')}</Text>
-      <View style={styles.tableHeader}>
-        <Text style={styles.headerCell}>{t('Task')}</Text>
-        <Text style={styles.headerCell}>{t('Status')}</Text>
-        <Text style={styles.headerCell}>{t('Action')}</Text>
-      </View>
-      <FlatList
-        data={tasks}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : error ? (
+        <Text style={styles.errorText}>{error}</Text>
+      ) : (
+        <>
+          <View style={styles.tableHeader}>
+            <Text style={styles.headerCell}>{t('Task')}</Text>
+            <Text style={styles.headerCell}>{t('Status')}</Text>
+            <Text style={styles.headerCell}>{t('Action')}</Text>
+          </View>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={item => item?.id.toString()}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -63,7 +141,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop : 10,
+    marginTop: 10,
   },
   row: {
     flexDirection: 'row',
@@ -86,6 +164,12 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: '#fff',
     fontSize: 14,
+    fontWeight: 'bold'
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 

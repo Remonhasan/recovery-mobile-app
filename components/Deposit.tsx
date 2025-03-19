@@ -40,29 +40,13 @@ const Deposit = () => {
       const data = await response.json();
 
       if (data.status === 'success') {
-        // Toast.show({
-        //   type: 'success',
-        //   position: 'top',
-        //   text1: t('Deposit Successfully !'),
-        //   text2: t('Your deposit has been successfully submitted !'),
-        //   visibilityTime: 3000,
-        //   autoHide: true,
-        // });
         Alert.alert('Success', 'Deposit Successfully !');
         navigation.navigate('DashboardTabs');
       } else {
-        Toast.show({
-          type: 'error',
-          position: 'top',
-          text1: t('Deposit Unsuccessful !'),
-          text2: t('Unable to submit deposit !'),
-          visibilityTime: 3000,
-          autoHide: true,
-        });
+        Alert.alert('Error', error?.bodyString.toString());
       }
     } catch (error) {
-      console.error('Error during submission:', error);
-      Alert.alert('Error', 'Something went wrong. Please try again later.');
+      Alert.alert('Error', error?.bodyString.toString());
     }
   };
 
