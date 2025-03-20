@@ -27,6 +27,7 @@ import Profile from './components/Profile';
 import Refer from './components/Refer';
 import HelpLine from './components/HelpLine';
 import LanguageToggle from './lang/LanguageToggle';
+import NoticeBoard from './components/NoticeBoard';
 
 
 
@@ -185,6 +186,11 @@ function App(): React.JSX.Element {
           <Stack.Screen
             name={t('Helpline')}
             component={HelpLine}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name={t('Notice Board')}
+            component={NoticeBoard}
             options={{ headerShown: true }}
           />
         </Stack.Navigator>
