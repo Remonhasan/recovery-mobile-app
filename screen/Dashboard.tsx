@@ -125,7 +125,7 @@ const Dashboard = ({ navigation }) => {
           <Image source={require('../transection.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Transaction')}</Text>
         </TouchableOpacity>
-
+        
         {/* Card 8 */}
         <TouchableOpacity
           style={[
@@ -134,23 +134,24 @@ const Dashboard = ({ navigation }) => {
           ]}
           onPressIn={() => handlePressIn(7)}
           onPressOut={handlePressOut}
-          onPress={() => navigation.navigate(t('Helpline'))}
-        >
-          <Image source={require('../helpline.png')} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>{t('Helpline')}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.card,
-            hoveredIndex === 7 && styles.cardHovered,
-          ]}
-          onPressIn={() => handlePressIn(8)}
-          onPressOut={handlePressOut}
           onPress={() => navigation.navigate(t('Notice Board'))}
         >
           <Image source={require('../notice.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Notice Board')}</Text>
+        </TouchableOpacity>
+        
+        {/* Card 9 */}
+        <TouchableOpacity
+          style={[
+            styles.card,
+            hoveredIndex === 8 && styles.cardHovered,
+          ]}
+          onPressIn={() => handlePressIn(8)}
+          onPressOut={handlePressOut}
+          onPress={() => navigation.navigate(t('Helpline'))}
+        >
+          <Image source={require('../helpline.png')} style={styles.cardImage} />
+          <Text style={styles.cardTitle}>{t('Helpline')}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
