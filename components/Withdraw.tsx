@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 import { fetch } from 'react-native-ssl-pinning';
@@ -13,6 +13,38 @@ const Withdraw = () => {
   const [amount, setAmount] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [number, setNumber] = useState('');
+   const [data, setData] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      const apiUrl = 'https://tr.recoveryitltd.com/api/balance';
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: headers,
+        sslPinning: { certs: ['mycert'] },
+      });
+
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error','Error fetching data. Check internet connection.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCreate = async () => {
     try {
@@ -78,7 +110,7 @@ const Withdraw = () => {
       </View>
 
       <View style={styles.balanceContainer}>
-        <Text style={styles.balanceText}>{t('Balance')} : ৳ {i18n.language == 'en' ? 0 : toBn(0)}</Text>
+        <Text style={styles.balanceText}>{t('Balance')} : ৳ {i18n.language == 'en' ? data?.balance : toBn(data?.balance)}</Text>
       </View>
 
       <View style={styles.paymentMethodContainer}>

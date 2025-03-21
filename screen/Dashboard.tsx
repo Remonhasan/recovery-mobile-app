@@ -1,10 +1,47 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { fetch } from 'react-native-ssl-pinning';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { toBn } from '../utils/util';
 
 const Dashboard = ({ navigation }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const { t, i18n } = useTranslation();
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      const apiUrl = 'https://tr.recoveryitltd.com/api/balance';
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: headers,
+        sslPinning: { certs: ['mycert'] },
+      });
+
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error','Error fetching data. Check internet connection.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Function to handle hover effect
   const handlePressIn = (index) => {
@@ -15,6 +52,7 @@ const Dashboard = ({ navigation }) => {
     setHoveredIndex(null);
   };
 
+  
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.logoContainer}>
@@ -25,6 +63,18 @@ const Dashboard = ({ navigation }) => {
         />
       </View>
       <Text style={styles.title}>{t('All Services')}</Text>
+      <TouchableOpacity 
+        style={styles.button} 
+      >
+        <View style={styles.iconContainer}>
+          <Image
+            source={require("../taka.png")} 
+            style={styles.icon}
+          />
+        </View>
+        <Text style={styles.balanceText}>{t('Balance')} : ৳ {i18n.language == 'en' ? data?.balance : toBn(data?.balance)}</Text>
+      </TouchableOpacity>
+     
 
       {/* Card Block Container */}
       <View style={styles.cardsContainer}>
@@ -125,7 +175,7 @@ const Dashboard = ({ navigation }) => {
           <Image source={require('../transection.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Transaction')}</Text>
         </TouchableOpacity>
-        
+
         {/* Card 8 */}
         <TouchableOpacity
           style={[
@@ -139,7 +189,7 @@ const Dashboard = ({ navigation }) => {
           <Image source={require('../notice.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Notice Board')}</Text>
         </TouchableOpacity>
-        
+
         {/* Card 9 */}
         <TouchableOpacity
           style={[
@@ -203,9 +253,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
-    borderTopColor : '#0E9C7E',
+    borderTopColor: '#0E9C7E',
     borderTopWidth: 5,
-    borderColor : '#0E9C7E',
+    borderColor: '#0E9C7E',
     borderWidth: 1,
     transition: 'all 0.3s ease', // This won't work in React Native, but it's included for reference.
   },
@@ -224,6 +274,39 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1E293B',
     marginBottom: 5,
+  },
+  balanceText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: "#0E9C7E",
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#E6FFF3",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    alignSelf: "center",
+  },
+  iconContainer: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "#E91E63", 
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 8,
+  },
+  icon: {
+    width: 16,
+    height: 16,
+    tintColor: "#FFF", 
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#008D63", 
   },
   // Removed cardDescription style
 });
