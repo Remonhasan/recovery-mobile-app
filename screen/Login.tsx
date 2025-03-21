@@ -38,7 +38,9 @@ const LoginScreen = ({ navigation }) => {
         setIsLoading(false);
 
         const accessToken = data?.data.token;
+        const accessName = data?.data.name;
         await AsyncStorage.setItem('accessToken', accessToken);
+        await AsyncStorage.setItem('accessName', accessName);
 
         navigation.navigate('DashboardTabs');
       } else {

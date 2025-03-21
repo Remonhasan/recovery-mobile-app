@@ -1,17 +1,36 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { toBn } from '../utils/util';
 
 const Refer = () => {
   const { t, i18n } = useTranslation();
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    loadName();
+  }, []);
+
+  const loadName = async () => {
+    const sessionName = await AsyncStorage.getItem('accessName');
+    setName(sessionName);
+  };
+
+  // Handle the copy action
+  const handleCopy = () => {
+    const referralUrl = `https://tr.recoveryitltd.com/registration?ref=${name}`;
+    Clipboard.setString(referralUrl); 
+    Alert.alert(t('Copied'), t('Your referral link has been copied.'));
+  };
 
   return (
     <ScrollView style={styles.container}>
       {/* Reference Section */}
       <View style={styles.referenceSection}>
         <Text style={styles.title}>{t('Your Reference Link')}</Text>
-        <Text style={styles.totalReferred}>{t('Total Referred')} : ৳ {i18n.language == 'en' ? 50 : toBn(50)}</Text>
+        {/* <Text style={styles.totalReferred}>{t('Total Referred')} : ৳ {i18n.language == 'en' ? 50 : toBn(50)}</Text> */}
       </View>
 
       {/* Referral URL Section */}
@@ -19,9 +38,10 @@ const Refer = () => {
         <TextInput
           style={styles.inputBox}
           placeholder={t('Enter your referral URL')}
-          value="https://example.com/referral"
+          value={`https://tr.recoveryitltd.com/registration?ref=${name}`}
+          editable={false} // Make the TextInput non-editable as it's showing the referral link
         />
-        <TouchableOpacity style={styles.copyButton}>
+        <TouchableOpacity style={styles.copyButton} onPress={handleCopy}>
           <Text style={styles.copyButtonText}>{t('Copy')}</Text>
         </TouchableOpacity>
         <Text style={styles.description}>

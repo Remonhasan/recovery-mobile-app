@@ -75,12 +75,12 @@ const Package = () => {
       Alert.alert('Error', error.bodyString.toString());
     } finally {
       setLoading(false);
-      setModalVisible(false); // Close the modal after the action
+      setModalVisible(false); 
     }
   };
 
   const cancelBuyNow = () => {
-    setModalVisible(false); // Close the modal without making any request
+    setModalVisible(false); 
   };
 
   if (loading) {
