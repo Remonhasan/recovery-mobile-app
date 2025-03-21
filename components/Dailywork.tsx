@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetch } from 'react-native-ssl-pinning';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert, ActivityIndicator, Linking } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 const Dailywork = () => {
@@ -70,8 +70,7 @@ const Dailywork = () => {
       const data = await response.json();
 
       if (data.status === 'success') {
-
-        Alert.alert('Success', 'Job Completed Successfully !');
+        Alert.alert('Success', 'Job Completed Successfully!');
         navigation.navigate('DashboardTabs');
       }
     } catch (error) {
@@ -79,13 +78,21 @@ const Dailywork = () => {
     }
   };
 
+  const handleViewLink = (item: any) => {
+    // Trigger handleJob before opening the link
+    handleJob(item?.id);
 
+    // Open the link in the browser
+    if (item?.link) {
+      Linking.openURL(item?.link).catch((err) => Alert.alert('Error', 'Failed to open the link.'));
+    }
+  };
 
-  const renderItem = ({ item }: { item: { title: string; status: string; id: number, action: string } }) => (
+  const renderItem = ({ item }: { item: { title: string; status: string; id: number; link: string } }) => (
     <View style={styles.row}>
       <Text style={styles.cell}>{item.title}</Text>
       <Text style={styles.cell}>{item.status}</Text>
-      <TouchableOpacity style={styles.actionButton} onPress={() => handleJob(item?.id)}>
+      <TouchableOpacity style={styles.actionButton} onPress={() => handleViewLink(item)}>
         <Text style={styles.actionButtonText}>{t('View')}</Text>
       </TouchableOpacity>
     </View>
@@ -164,7 +171,7 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: '#fff',
     fontSize: 14,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   errorText: {
     color: 'red',
