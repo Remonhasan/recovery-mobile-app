@@ -12,10 +12,17 @@ const Profile = () => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     loadData();
+    loadName();
   }, []);
+
+  const loadName = async () => {
+    const sessionName = await AsyncStorage.getItem('accessName');
+    setName(sessionName);
+  };
 
   const loadData = async () => {
     setLoading(true);
@@ -47,8 +54,6 @@ const Profile = () => {
     }
   };
 
-  console.log("data", data)
-
   return (
     <ScrollView style={styles.container}>
       {/* User Info Section */}
@@ -57,8 +62,8 @@ const Profile = () => {
           source={require('../profile.png')}
           style={styles.userImage}
         />
-        <Text style={styles.userName}>John Doe</Text>
-        <Text style={styles.userMobile}>+123 456 7890</Text>
+        <Text style={styles.userName}>{name}</Text>
+        {/* <Text style={styles.userMobile}>+123 456 7890</Text> */}
       </View>
 
       {/* Card Block Section */}
