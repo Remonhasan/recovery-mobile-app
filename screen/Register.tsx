@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { fetch } from 'react-native-ssl-pinning';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Image, ScrollView, Alert } from 'react-native';
 
 const Register = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -8,6 +10,51 @@ const Register = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleRegister = async () => {
+    if (username.trim() === '' || password.trim() === '' || confirmPassword.trim() === '') {
+      Alert.alert('Error', 'Username, Password, Confirm Password fields are mandatory.');
+      return;
+    }
+
+    setIsLoading(true);
+
+    const payLoad = {
+      name : name,
+      phone : mobile,
+      username : username,
+      password : password,
+      password_confirmation: confirmPassword
+    };
+    try {
+      const response = await fetch('https://tr.recoveryitltd.com/api/registration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payLoad),
+        sslPinning: {
+          certs: ['mycert'],
+        },
+      });
+
+      const data = await response.json();
+  
+      if (data.status === 'success') { 
+        setIsLoading(false);
+
+        Alert.alert('Success', 'Successfully Registered. Please login.');
+        navigation.navigate('Login');
+      } else {
+        setIsLoading(false);
+        Alert.alert('Error', 'Invalid Credentials.' || 'Registration failed.');
+      }
+    } catch (error) {
+      setIsLoading(false);
+      // console.log("login error:", error)
+      Alert.alert('Error', error.bodystring.toString());
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -89,7 +136,7 @@ const Register = ({ navigation }) => {
       </View>
 
       {/* Register Button */}
-      <TouchableOpacity style={styles.button} disabled={isLoading}>
+      <TouchableOpacity style={styles.button} disabled={isLoading} onPress={handleRegister}>
         {isLoading ? (
           <ActivityIndicator color="#fff" />
         ) : (
@@ -100,7 +147,7 @@ const Register = ({ navigation }) => {
       {/* Already have an account? Link */}
       <View style={styles.linkContainer}>
         <Text style={styles.linkText}>Already have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.linkTextBold}>Login here</Text>
         </TouchableOpacity>
       </View>

@@ -107,7 +107,7 @@ const LoginScreen = ({ navigation }) => {
 
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>Not registered yet?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('DashboardTabs')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <Text style={styles.createAccountText}>Create New Account</Text>
         </TouchableOpacity>
       </View>
