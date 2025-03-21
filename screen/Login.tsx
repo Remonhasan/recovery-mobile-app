@@ -9,16 +9,10 @@ const LoginScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
-    // if (email.trim() === '' || password.trim() === '') {
-    //   Alert.alert('Error', 'Please fill in both fields.');
-    //   return;
-    // }
-
-    // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    // if (!emailRegex.test(email)) {
-    //   Alert.alert('Error', 'Please enter a valid email address.');
-    //   return;
-    // }
+    if (email.trim() === '' || password.trim() === '') {
+      Alert.alert('Error', 'Please fill in both fields.');
+      return;
+    }
 
     setIsLoading(true);
 
