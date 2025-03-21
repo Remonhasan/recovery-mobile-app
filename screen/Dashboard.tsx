@@ -72,7 +72,7 @@ const Dashboard = ({ navigation }) => {
             style={styles.icon}
           />
         </View>
-        <Text style={styles.balanceText}>{t('Balance')} : ৳ {i18n.language == 'en' ? data?.balance : toBn(data?.balance)}</Text>
+        <Text style={styles.balanceText}>{t('Balance')} : ৳ {data?.balance}</Text>
       </TouchableOpacity>
      
 
