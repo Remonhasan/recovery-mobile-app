@@ -149,7 +149,7 @@ const Deposit = () => {
 
       <View style={styles.amountOptionsContainer}>
         {[500, 1000, 2000, 3000, 5000, 6000, 9000, 15000, 20000, 25000].map((value) => (
-          <TouchableOpacity key={value} style={styles.amountOption} onPress={() => setAmount(value.toString())}>
+          <TouchableOpacity key={value} style={styles.amountOption} onPress={() => setAmount(value?.toString())}>
             <Text style={styles.amountOptionText}>
               {i18n.language === 'en' ? value : toBn(value)}
             </Text>

@@ -74,7 +74,7 @@ const Dailywork = () => {
         navigation.navigate('DashboardTabs');
       }
     } catch (error) {
-      Alert.alert('Error', error.bodyString.toString());
+      Alert.alert('Error', error.bodyString?.toString());
     }
   };
 
@@ -116,7 +116,7 @@ const Dailywork = () => {
           <FlatList
             data={data}
             renderItem={renderItem}
-            keyExtractor={item => item?.id.toString()}
+            keyExtractor={item => item?.id?.toString()}
           />
         </>
       )}

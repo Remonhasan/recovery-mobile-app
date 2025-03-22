@@ -42,11 +42,17 @@ const LoginScreen = ({ navigation }) => {
   
       if (data.success === true) { // check your json response
         setIsLoading(false);
-
+        
         const accessToken = data?.data.token;
         const accessName = data?.data.name;
+        const accessUserName = data?.data.username;
+        const accessPhone = data?.data.phone;
+
         await AsyncStorage.setItem('accessToken', accessToken);
         await AsyncStorage.setItem('accessName', accessName);
+        await AsyncStorage.setItem('accessUserName', accessUserName);
+        await AsyncStorage.setItem('accessPhone', accessPhone);
+
         Toast.show({
           type: 'success',
           text1: 'Login Successfull.',

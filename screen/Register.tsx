@@ -10,14 +10,15 @@ const Register = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [refferName, setRefferName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (name.trim() === '' || username.trim() === '' || password.trim() === '' || confirmPassword.trim() === '') {
+    if (name.trim() === '' || username.trim() === '' || password.trim() === '' || confirmPassword.trim() === '' || mobile.trim() === '') {
       // Alert.alert('Error', 'Username, Password, Confirm Password fields are mandatory.');
       Toast.show({
         type: 'error',
-        text1: 'Name and Username fields are mandatory.',
+        text1: 'Name, Username, Mobile fields are mandatory.',
         text2: 'Password and Confirm Password fields are mandatory.👋'
       });
       return;
@@ -30,7 +31,8 @@ const Register = ({ navigation }) => {
       phone: mobile,
       username: username,
       password: password,
-      password_confirmation: confirmPassword
+      password_confirmation: confirmPassword,
+      reffered_by: refferName
     };
     try {
       const response = await fetch('https://tr.recoveryitltd.com/api/registration', {
@@ -104,7 +106,7 @@ const Register = ({ navigation }) => {
 
       {/* Mobile Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>MOBILE</Text>
+        <Text style={styles.inputLabel}>MOBILE *</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
@@ -153,6 +155,18 @@ const Register = ({ navigation }) => {
             secureTextEntry
             value={confirmPassword}
             onChangeText={setConfirmPassword}
+          />
+        </View>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>Reffered By</Text>
+        <View style={styles.inputRow}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter refer username"
+            value={refferName}
+            onChangeText={setRefferName}
           />
         </View>
       </View>

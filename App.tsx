@@ -42,6 +42,9 @@ const LogoutButton = () => {
     try {
       // Remove from session
       await AsyncStorage.removeItem('accessToken');
+      await AsyncStorage.removeItem('accessName');
+      await AsyncStorage.removeItem('accessUserName');
+      await AsyncStorage.removeItem('accessPhone');
       
       Toast.show({
         type: 'success',

@@ -112,7 +112,7 @@ const Transaction = () => {
           <FlatList
             data={data}
             renderItem={renderItem}
-            keyExtractor={item => item?.id.toString()}
+            keyExtractor={item => item?.id?.toString()}
             onEndReached={loadMoreData} // Load more when scrolling to the end
             onEndReachedThreshold={0.5} // Trigger when halfway down
             ListFooterComponent={

@@ -13,6 +13,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
 
   useEffect(() => {
     loadData();
@@ -21,7 +22,9 @@ const Profile = () => {
 
   const loadName = async () => {
     const sessionName = await AsyncStorage.getItem('accessName');
+    const accessPhone = await AsyncStorage.getItem('accessPhone');
     setName(sessionName);
+    setPhone(accessPhone);
   };
 
   const loadData = async () => {
@@ -54,6 +57,11 @@ const Profile = () => {
     }
   };
 
+  function roundPrice(price?: number, decimals: number = 0): number {
+    if (typeof price !== "number") return 0; // Default to 0 if price is undefined or not a number
+    return Number(price.toFixed(decimals));
+  }
+
   return (
     <ScrollView style={styles.container}>
       {/* User Info Section */}
@@ -63,22 +71,22 @@ const Profile = () => {
           style={styles.userImage}
         />
         <Text style={styles.userName}>{name}</Text>
-        {/* <Text style={styles.userMobile}>+123 456 7890</Text> */}
+        <Text style={styles.userMobile}>{phone}</Text>
       </View>
 
       {/* Card Block Section */}
       <View style={styles.cardSection}>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>{t('Total Deposit')}</Text>
-          <Text style={styles.cardValue}>৳{i18n.language == 'en' ? data?.totalDeposit?.price : toBn(data?.totalDeposit.price)}</Text>
+          <Text style={styles.cardValue}>{i18n.language == 'en' ? roundPrice(data?.totalDeposit?.price) : toBn(roundPrice(data?.totalDeposit?.price))}</Text>
         </View>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>{t('Total Withdraw')}</Text>
-          <Text style={styles.cardValue}>৳ {i18n.language == 'en' ? data?.totalWithdraw : toBn(data?.totalWithdraw)}</Text>
+          <Text style={styles.cardValue}>{i18n.language == 'en' ? roundPrice(data?.totalWithdraw) : toBn(roundPrice(data?.totalWithdraw))}</Text>
         </View>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>{t('Available Balance')}</Text>
-          <Text style={styles.cardValue}>৳ {i18n.language == 'en' ? data?.availableBalance : toBn(data?.availableBalance)}</Text>
+          <Text style={styles.cardValue}>{i18n.language == 'en' ? roundPrice(data?.availableBalance) : toBn(roundPrice(data?.availableBalance))}</Text>
         </View>
       </View>
 

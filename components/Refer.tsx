@@ -9,19 +9,20 @@ import { toBn } from '../utils/util';
 const Refer = () => {
   const { t, i18n } = useTranslation();
   const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     loadName();
   }, []);
 
   const loadName = async () => {
-    const sessionName = await AsyncStorage.getItem('accessName');
-    setName(sessionName);
+    const accessUserName = await AsyncStorage.getItem('accessUserName');
+    setUsername(accessUserName);
   };
 
   // Handle the copy action
   const handleCopy = () => {
-    const referralUrl = `https://tr.recoveryitltd.com/registration?ref=${name}`;
+    const referralUrl = `https://tr.recoveryitltd.com/registration?ref=${username}`;
     Clipboard.setString(referralUrl);
     Toast.show({
       type: 'success',

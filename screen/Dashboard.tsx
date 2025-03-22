@@ -12,6 +12,7 @@ const Dashboard = ({ navigation }) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showBalance, setShowBalance] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -37,7 +38,7 @@ const Dashboard = ({ navigation }) => {
       setData(json);
     } catch (error) {
       console.error(error);
-      Alert.alert('Error','Error fetching data. Check internet connection.');
+      Alert.alert('Error', 'Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);
     }
@@ -52,7 +53,11 @@ const Dashboard = ({ navigation }) => {
     setHoveredIndex(null);
   };
 
-  
+  const toggleBalance = () => {
+    setShowBalance((prev) => !prev);
+  };
+
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.logoContainer}>
@@ -63,18 +68,16 @@ const Dashboard = ({ navigation }) => {
         />
       </View>
       <Text style={styles.title}>{t('All Services')}</Text>
-      <TouchableOpacity 
-        style={styles.button} 
-      >
+      <TouchableOpacity style={styles.button} onPress={toggleBalance}>
         <View style={styles.iconContainer}>
-          <Image
-            source={require("../taka.png")} 
-            style={styles.icon}
-          />
+          <Image source={require("../taka.png")} style={styles.icon} />
         </View>
-        <Text style={styles.balanceText}>{t('Balance')} : ৳ {data?.balance}</Text>
+        <Text style={styles.balanceText}>
+          {showBalance ? `৳ ${i18n.language === 'en' ? data?.balance : toBn(data?.balance)}` : t('Tap for Balance')}
+        </Text>
       </TouchableOpacity>
-     
+
+
 
       {/* Card Block Container */}
       <View style={styles.cardsContainer}>
@@ -293,7 +296,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: "#E91E63", 
+    backgroundColor: "#E91E63",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 8,
@@ -301,12 +304,12 @@ const styles = StyleSheet.create({
   icon: {
     width: 16,
     height: 16,
-    tintColor: "#FFF", 
+    tintColor: "#FFF",
   },
   text: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#008D63", 
+    color: "#008D63",
   },
   // Removed cardDescription style
 });
