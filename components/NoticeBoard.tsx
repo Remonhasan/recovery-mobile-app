@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { fetch } from 'react-native-ssl-pinning';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator, Modal } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 const NoticeBoard = () => {
-  const navigation = useNavigation();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const removeHtmlTags = (str: string) => {
-    return str.replace(/<\/?[^>]+(>|$)/g, "");
-  };
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState<{ title: string; description: string } | null>(null);
 
   useEffect(() => {
     loadData();
@@ -50,11 +46,30 @@ const NoticeBoard = () => {
     }
   };
 
+  const openModal = (notice: { title: string; description: string }) => {
+    setSelectedNotice({
+      title: notice.title,
+      description: removeHtmlTags(notice.description),
+    });
+    setModalVisible(true);
+  };
+  
 
-  const renderItem = ({ item }: { item: { title: string; description: string; id: number, action: string } }) => (
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedNotice(null);
+  };
+
+  const removeHtmlTags = (str: string) => {
+    return str.replace(/<\/?[^>]+(>|$)/g, "");
+  };
+
+  const renderItem = ({ item }: { item: { title: string; description: string; id: number } }) => (
     <View style={styles.row}>
       <Text style={styles.cell}>{item.title}</Text>
-      <Text style={styles.cell}>{removeHtmlTags(item.description)}</Text>
+      <TouchableOpacity style={styles.actionButton} onPress={() => openModal(item)}>
+        <Text style={styles.actionButtonText}>{t('View')}</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -70,7 +85,7 @@ const NoticeBoard = () => {
         <>
           <View style={styles.tableHeader}>
             <Text style={styles.headerCell}>{t('Title')}</Text>
-            <Text style={styles.headerCell}>{t('Description')}</Text>
+            <Text style={styles.headerCell}>{t('Action')}</Text>
           </View>
           <FlatList
             data={data}
@@ -79,6 +94,24 @@ const NoticeBoard = () => {
           />
         </>
       )}
+
+      {/* Modal for Viewing Notice */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>{selectedNotice?.title}</Text>
+            <Text style={styles.modalText}>{selectedNotice?.description}</Text>
+            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+              <Text style={styles.closeButtonText}>{t('Close')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -130,12 +163,45 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: '#fff',
     fontSize: 14,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   errorText: {
     color: 'red',
     textAlign: 'center',
     marginTop: 20,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  closeButton: {
+    backgroundColor: 'red',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 
