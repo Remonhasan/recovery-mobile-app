@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 import { fetch } from 'react-native-ssl-pinning';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -39,7 +40,7 @@ const Package = () => {
       setData(json.packages);
     } catch (error) {
       console.error(error);
-      setError('Error fetching data. Check internet connection.');
+      Alert.alert('Error','Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);
     }
@@ -68,19 +69,35 @@ const Package = () => {
 
       const json = await response.json();
       if (json.status === 'success') {
-        Alert.alert('Success', 'You bought the package successfully!');
+
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: t('Bought Successfully !'),
+          text2: t('You bought the package successfully!')
+        });
+
         navigation.navigate('DashboardTabs');
       }
     } catch (error) {
-      Alert.alert('Error', error.bodyString.toString());
+
+      const parsedBody = JSON.parse(error.bodyString.trim());
+      const errorMessage = parsedBody.error;
+
+      Toast.show({
+        type: 'error',
+        text1: 'Package Bought Unsuccessfull.',
+        text2: errorMessage
+      });
+
     } finally {
       setLoading(false);
-      setModalVisible(false); 
+      setModalVisible(false);
     }
   };
 
   const cancelBuyNow = () => {
-    setModalVisible(false); 
+    setModalVisible(false);
   };
 
   if (loading) {
