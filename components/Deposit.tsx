@@ -40,13 +40,22 @@ const Deposit = () => {
       setData(json);
     } catch (error) {
       console.error(error);
-      Alert.alert('Error','Error fetching data. Check internet connection.');
+      Alert.alert('Error', 'Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleCreate = async () => {
+    if (amount.trim() === '' || transactionNumber.trim() === '' || selectedPaymentMethod.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Amount, Transaction Number fields are mandatory.',
+        text2: 'Payment method fields is mandatory. Try again..👋'
+      });
+      return;
+    }
+
     try {
       // Payload
       const payload = {
@@ -72,13 +81,24 @@ const Deposit = () => {
       const data = await response.json();
 
       if (data.status === 'success') {
-        Alert.alert('Success', 'Deposit Successfully !');
+        // Alert.alert('Success', 'Deposit Successfully !');
+        Toast.show({
+          type: 'success',
+          text1: 'Deposit Successfully !',
+          text2: 'Enjoy your experience..👋'
+        });
         navigation.navigate('DashboardTabs');
-      } else {
-        Alert.alert('Error', error?.bodyString.toString());
       }
     } catch (error) {
-      Alert.alert('Error', error?.bodyString.toString());
+
+      const parsedBody = JSON.parse(error.bodyString.trim());
+      const errorMessage = parsedBody.message;
+
+      Toast.show({
+        type: 'error',
+        text1: 'Deposit Unsuccessfull.',
+        text2: errorMessage
+      });
     }
   };
 
