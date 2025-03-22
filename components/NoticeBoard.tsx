@@ -174,27 +174,31 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
   },
   modalContent: {
     width: '80%',
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: 'flex-start', // Align content to the left
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    textAlign: 'left', // Left align text
     marginBottom: 10,
+    width: '100%', // Ensure it takes full width
   },
   modalText: {
     fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 20,
+    textAlign: 'left', // Left align text
+    width: '100%',
   },
   closeButton: {
-    backgroundColor: 'red',
+    marginTop: 20,
+    alignSelf: 'center',
+    backgroundColor: '#007BFF',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -202,7 +206,7 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: 'white',
     fontWeight: 'bold',
-  },
+  }
 });
 
 export default NoticeBoard;
