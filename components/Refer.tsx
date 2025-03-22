@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -21,8 +22,12 @@ const Refer = () => {
   // Handle the copy action
   const handleCopy = () => {
     const referralUrl = `https://tr.recoveryitltd.com/registration?ref=${name}`;
-    Clipboard.setString(referralUrl); 
-    Alert.alert(t('Copied'), t('Your referral link has been copied.'));
+    Clipboard.setString(referralUrl);
+    Toast.show({
+      type: 'success',
+      text1: t('Copied Successfully !'),
+      text2: t('Your referral link has been copied.')
+    });
   };
 
   return (
