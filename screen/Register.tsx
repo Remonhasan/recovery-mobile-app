@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Toast from 'react-native-toast-message';
 import { fetch } from 'react-native-ssl-pinning';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Image, ScrollView, Alert } from 'react-native';
@@ -12,18 +13,23 @@ const Register = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (username.trim() === '' || password.trim() === '' || confirmPassword.trim() === '') {
-      Alert.alert('Error', 'Username, Password, Confirm Password fields are mandatory.');
+    if (name.trim() === '' || username.trim() === '' || password.trim() === '' || confirmPassword.trim() === '') {
+      // Alert.alert('Error', 'Username, Password, Confirm Password fields are mandatory.');
+      Toast.show({
+        type: 'error',
+        text1: 'Name and Username fields are mandatory.',
+        text2: 'Password and Confirm Password fields are mandatory.👋'
+      });
       return;
     }
 
     setIsLoading(true);
 
     const payLoad = {
-      name : name,
-      phone : mobile,
-      username : username,
-      password : password,
+      name: name,
+      phone: mobile,
+      username: username,
+      password: password,
       password_confirmation: confirmPassword
     };
     try {
@@ -39,20 +45,36 @@ const Register = ({ navigation }) => {
       });
 
       const data = await response.json();
-  
-      if (data.status === 'success') { 
+      console.log("Data", data)
+      if (data.status === 'success') {
         setIsLoading(false);
 
-        Alert.alert('Success', 'Successfully Registered. Please login.');
+        Toast.show({
+          type: 'success',
+          text1: 'Registration Successfull.',
+          text2: 'Please Login and Enjoy your experience.. 👋'
+        });
         navigation.navigate('Login');
       } else {
         setIsLoading(false);
-        Alert.alert('Error', 'Invalid Credentials.' || 'Registration failed.');
+        Toast.show({
+          type: 'error',
+          text1: 'Registration Unsuccessfull.',
+          text2: 'Try Again...'
+        });
       }
     } catch (error) {
       setIsLoading(false);
-      // console.log("login error:", error)
-      Alert.alert('Error', error.bodystring.toString());
+
+      const parsedBody = JSON.parse(error.bodyString.trim());
+      const errorMessage = parsedBody.message;
+
+      Toast.show({
+        type: 'error',
+        text1: 'Registration Unsuccessfull.',
+        text2: errorMessage
+      });
+
     }
   };
 
@@ -69,7 +91,7 @@ const Register = ({ navigation }) => {
 
       {/* Name Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>NAME</Text>
+        <Text style={styles.inputLabel}>NAME *</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
@@ -96,7 +118,7 @@ const Register = ({ navigation }) => {
 
       {/* Username Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>USERNAME</Text>
+        <Text style={styles.inputLabel}>USERNAME *</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
@@ -109,7 +131,7 @@ const Register = ({ navigation }) => {
 
       {/* Password Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>PASSWORD</Text>
+        <Text style={styles.inputLabel}>PASSWORD *</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
@@ -123,7 +145,7 @@ const Register = ({ navigation }) => {
 
       {/* Confirm Password Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>CONFIRM PASSWORD</Text>
+        <Text style={styles.inputLabel}>CONFIRM PASSWORD *</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}

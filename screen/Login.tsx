@@ -1,4 +1,5 @@
 import { fetch } from 'react-native-ssl-pinning';
+import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Image } from 'react-native';
@@ -10,7 +11,12 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (email.trim() === '' || password.trim() === '') {
-      Alert.alert('Error', 'Please fill in both fields.');
+      // Alert.alert('Error', 'Email and Password fields are mandatory.');
+      Toast.show({
+        type: 'error',
+        text1: 'Email and Password fields are mandatory.',
+        text2: 'Please try again.. 👋'
+      });
       return;
     }
 
@@ -41,7 +47,11 @@ const LoginScreen = ({ navigation }) => {
         const accessName = data?.data.name;
         await AsyncStorage.setItem('accessToken', accessToken);
         await AsyncStorage.setItem('accessName', accessName);
-
+        Toast.show({
+          type: 'success',
+          text1: 'Login Successfull.',
+          text2: 'Welcome to Dashboard 👋'
+        });
         navigation.navigate('DashboardTabs');
       } else {
         setIsLoading(false);
@@ -67,11 +77,11 @@ const LoginScreen = ({ navigation }) => {
 
       {/* Email Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>USERNAME</Text>
+        <Text style={styles.inputLabel}>USERNAME *</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
-            placeholder='youremail@example.com'
+            placeholder='your username'
             value={email}
             onChangeText={setEmail}
           />
@@ -80,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
 
       {/* Password Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>PASSWORD</Text>
+        <Text style={styles.inputLabel}>PASSWORD *</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
