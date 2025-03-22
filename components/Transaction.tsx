@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { fetch } from 'react-native-ssl-pinning';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { toBn } from '../utils/util';
-
 
 const Transaction = () => {
   const navigation = useNavigation();
@@ -13,13 +12,20 @@ const Transaction = () => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // Flag to check if more data exists
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const loadData = async () => {
-    setLoading(true);
+  const loadData = async (pageNumber = 1, append = false) => {
+    if (isFetchingMore) return;
+
+    if (!append) setLoading(true);
+    else setIsFetchingMore(true);
+
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
       const headers = {
@@ -27,7 +33,7 @@ const Transaction = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = 'https://tr.recoveryitltd.com/api/transaction';
+      const apiUrl = `https://tr.recoveryitltd.com/api/transaction?page=${pageNumber}`;
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,
@@ -36,21 +42,51 @@ const Transaction = () => {
 
       if (response.status === 200) {
         const json = await response.json();
-        setData(json.withdraw?.data || []);
+        const newData = json.withdraw?.data || [];
+
+        if (append) {
+          setData(prevData => [...prevData, ...newData]);
+        } else {
+          setData(newData);
+        }
+
+        setHasMore(newData.length > 0); // If no new data, stop fetching
       } else {
         setError('Error fetching data');
       }
     } catch (error) {
       console.error(error);
-      setError('Error fetching data. Check internet connection.');
+      Alert.alert('Error','Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);
+      setIsFetchingMore(false);
     }
   };
 
+  const loadMoreData = () => {
+    if (!isFetchingMore && hasMore) {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      loadData(nextPage, true);
+    }
+  };
+
+  function formatDateTime(timestamp: string, locale: string = 'en-US'): string {
+    return new Intl.DateTimeFormat(locale, {
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZone: 'UTC'
+    }).format(new Date(timestamp));
+  }
+
   const renderItem = ({ item }: { item: { created_at: string; type: string; amount: string } }) => (
     <View style={styles.row}>
-      <Text style={styles.cell}>{item.created_at}</Text>
+      <Text style={styles.cell}>{formatDateTime(item.created_at)}</Text>
       <Text style={styles.cell}>{item.type}</Text>
       <TouchableOpacity style={styles.actionButton}>
         <Text style={styles.actionButtonText}>{item.amount}</Text>
@@ -77,6 +113,11 @@ const Transaction = () => {
             data={data}
             renderItem={renderItem}
             keyExtractor={item => item?.id.toString()}
+            onEndReached={loadMoreData} // Load more when scrolling to the end
+            onEndReachedThreshold={0.5} // Trigger when halfway down
+            ListFooterComponent={
+              isFetchingMore ? <ActivityIndicator size="small" color="blue" /> : null
+            }
           />
         </>
       )}
