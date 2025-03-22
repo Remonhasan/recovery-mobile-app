@@ -53,5 +53,7 @@
   "Action" : "অ্যাকশন",
   "Logout" : "লগাউট",
   "Notice Board" : "নোটিশ বোর্ড",
-  "Tap for Balance" : "ব্যালান্স দেখতে ট্যাপ করুন"
+  "Tap for Balance" : "ব্যালান্স দেখতে ট্যাপ করুন",
+  "No Task Found !" : "কোন কাজ পাওয়া যায়নি !",
+  "Your Transactions" : "আপনার লেনদেনসমূহ"
 }

@@ -117,6 +117,11 @@ const Dailywork = () => {
             data={data}
             renderItem={renderItem}
             keyExtractor={item => item?.id?.toString()}
+            ListEmptyComponent={
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>{t('No Task Found !')}</Text>
+              </View>
+            }
           />
         </>
       )}
@@ -178,6 +183,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'gray',
+  }
 });
 
 export default Dailywork;

@@ -103,7 +103,7 @@ const Package = () => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#17A2B8" />
         <Text style={styles.loadingText}>{t('Loading, please wait...')}</Text>
       </View>
     );

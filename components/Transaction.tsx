@@ -116,7 +116,7 @@ const Transaction = () => {
             onEndReached={loadMoreData} // Load more when scrolling to the end
             onEndReachedThreshold={0.5} // Trigger when halfway down
             ListFooterComponent={
-              isFetchingMore ? <ActivityIndicator size="small" color="blue" /> : null
+              isFetchingMore ? <ActivityIndicator size="small" color="0000ff" /> : null
             }
           />
         </>

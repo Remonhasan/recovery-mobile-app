@@ -53,5 +53,7 @@
   "Action" : "Action",
   "Logout" : "Logout",
   "Notice Board" : "Notice Board",
-  "Tap for Balance" : "Tap for Balance"
+  "Tap for Balance" : "Tap for Balance",
+  "No Task Found !" : "No Task Found !",
+  "Your Transactions" : "Your Transactions"
 }
