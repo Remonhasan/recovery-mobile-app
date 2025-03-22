@@ -13,8 +13,8 @@ const Withdraw = () => {
   const [amount, setAmount] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [number, setNumber] = useState('');
-   const [data, setData] = useState<any[]>([]);
-    const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -40,13 +40,22 @@ const Withdraw = () => {
       setData(json);
     } catch (error) {
       console.error(error);
-      Alert.alert('Error','Error fetching data. Check internet connection.');
+      Alert.alert('Error', 'Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleCreate = async () => {
+    if (amount.trim() === '' || number.trim() === '' || selectedPaymentMethod.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Amount, Mobile Number fields are mandatory.',
+        text2: 'Payment method fields is mandatory. Try again..👋'
+      });
+      return;
+    }
+
     try {
       // Payload
       const payload = {
@@ -76,9 +85,7 @@ const Withdraw = () => {
           type: 'success',
           position: 'top',
           text1: t('Withdraw Successfully !'),
-          text2: t('Your withdraw has been successfully submitted !'),
-          visibilityTime: 3000,
-          autoHide: true,
+          text2: t('Your withdraw has been successfully submitted !')
         });
         navigation.navigate('DashboardTabs');
       } else {
@@ -92,8 +99,15 @@ const Withdraw = () => {
         });
       }
     } catch (error) {
-      // console.error('Error during submission:', error.bodyString);
-      Alert.alert('Error', error.bodyString.toString());
+      
+      const parsedBody = JSON.parse(error.bodyString.trim());
+      const errorMessage = parsedBody.error;
+
+      Toast.show({
+        type: 'error',
+        text1: 'Withdraw Unsuccessfull.',
+        text2: errorMessage
+      });
     }
   };
 
@@ -138,14 +152,14 @@ const Withdraw = () => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t('Mobile Number')} :</Text>
+        <Text style={styles.label}>{t('Mobile Number')} * :</Text>
         <TextInput
           style={styles.input}
           placeholder={t('Enter Mobile Number')}
           value={number}
           onChangeText={setNumber}
         />
-        <Text style={styles.label}>{t('Amount')} :</Text>
+        <Text style={styles.label}>{t('Amount')} * :</Text>
         <TextInput
           style={styles.input}
           placeholder={t('Enter Amount')}
