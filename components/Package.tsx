@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: '#17A2B8',
-  },
+  }
 });
 
 export default Package;

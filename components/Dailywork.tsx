@@ -103,7 +103,10 @@ const Dailywork = () => {
       <Text style={styles.header}>{t('Complete Your Tasks')}</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#17A2B8" />
+          <Text style={styles.loadingText}>{t('Loading, please wait...')}</Text>
+        </View>
       ) : error ? (
         <Text style={styles.errorText}>{error}</Text>
       ) : (
@@ -192,6 +195,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'gray',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    padding: 16,
+  },
+  loadingText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#17A2B8',
   }
 });
 
