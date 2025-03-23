@@ -39,19 +39,33 @@ const Deposit = () => {
       const json = await response.json();
       setData(json);
     } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'Error fetching data. Check internet connection.');
+     
+      Toast.show({
+        type: 'error',
+        text1: t('Error fetching data.'),
+        text2: t('Check internet connection. Try again..👋')
+      });
     } finally {
       setLoading(false);
     }
   };
 
+
   const handleCreate = async () => {
     if (amount.trim() === '' || transactionNumber.trim() === '' || selectedPaymentMethod.trim() === '') {
       Toast.show({
         type: 'error',
-        text1: 'Amount, Transaction Number fields are mandatory.',
-        text2: 'Payment method fields is mandatory. Try again..👋'
+        text1: t('Amount, Transaction Number fields are mandatory.'),
+        text2: t('Payment method fields is mandatory. Try again..👋')
+      });
+      return;
+    }
+
+    if (Number(amount) < 500) {
+      Toast.show({
+        type: 'error',
+        text1: t('Minimum withdraw 500 BDT'),
+        text2: t('Please try again.')
       });
       return;
     }
@@ -81,11 +95,11 @@ const Deposit = () => {
       const data = await response.json();
 
       if (data.status === 'success') {
-        // Alert.alert('Success', 'Deposit Successfully !');
+       
         Toast.show({
           type: 'success',
-          text1: 'Deposit Successfully !',
-          text2: 'Enjoy your experience..👋'
+          text1: t('Deposit Successfully !'),
+          text2: t('Enjoy your experience..👋')
         });
         navigation.navigate('DashboardTabs');
       }
@@ -96,7 +110,7 @@ const Deposit = () => {
 
       Toast.show({
         type: 'error',
-        text1: 'Deposit Unsuccessfull.',
+        text1: t('Deposit Unsuccessfull.'),
         text2: errorMessage
       });
     }

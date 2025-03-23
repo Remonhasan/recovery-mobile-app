@@ -39,8 +39,12 @@ const Withdraw = () => {
       const json = await response.json();
       setData(json);
     } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'Error fetching data. Check internet connection.');
+      // console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: t('Error fetching data.'),
+        text2: t('Check internet connection. Try again..👋')
+      });
     } finally {
       setLoading(false);
     }
@@ -50,8 +54,27 @@ const Withdraw = () => {
     if (amount.trim() === '' || number.trim() === '' || selectedPaymentMethod.trim() === '') {
       Toast.show({
         type: 'error',
-        text1: 'Amount, Mobile Number fields are mandatory.',
-        text2: 'Payment method fields is mandatory. Try again..👋'
+        text1: t('Amount, Mobile Number fields are mandatory.'),
+        text2: t('Payment method fields is mandatory. Try again..👋')
+      });
+      return;
+    }
+
+    const mobileRegex = /^01[3-9]\d{8}$/;
+    if (!mobileRegex.test(number)) {
+      Toast.show({
+        type: 'error',
+        text1: t('Invalid Mobile Number!'),
+        text2: t('Please enter valid mobile number (11 digits, starts with 01).')
+      });
+      return;
+    }
+
+    if (Number(amount) < 500) {
+      Toast.show({
+        type: 'error',
+        text1: t('Minimum withdraw 500 BDT'),
+        text2: t('Please try again.')
       });
       return;
     }
@@ -93,19 +116,17 @@ const Withdraw = () => {
           type: 'error',
           position: 'top',
           text1: t('Withdraw Unsuccessful !'),
-          text2: t('Unable to withdraw deposit !'),
-          visibilityTime: 3000,
-          autoHide: true,
+          text2: t('Unable to withdraw deposit !')
         });
       }
     } catch (error) {
-      
+
       const parsedBody = JSON.parse(error.bodyString.trim());
       const errorMessage = parsedBody.error;
 
       Toast.show({
         type: 'error',
-        text1: 'Withdraw Unsuccessfull.',
+        text1: t('Withdraw Unsuccessfull.'),
         text2: errorMessage
       });
     }
@@ -152,14 +173,14 @@ const Withdraw = () => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t('Mobile Number')} * :</Text>
+        <Text style={styles.label}>{t('Mobile Number')} * </Text>
         <TextInput
           style={styles.input}
           placeholder={t('Enter Mobile Number')}
           value={number}
           onChangeText={setNumber}
         />
-        <Text style={styles.label}>{t('Amount')} * :</Text>
+        <Text style={styles.label}>{t('Amount')} * </Text>
         <TextInput
           style={styles.input}
           placeholder={t('Enter Amount')}

@@ -55,5 +55,16 @@
   "Notice Board" : "Notice Board",
   "Tap for Balance" : "Tap for Balance",
   "No Task Found !" : "No Task Found !",
-  "Your Transactions" : "Your Transactions"
+  "Your Transactions" : "Your Transactions",
+  "Error fetching data." : "Error fetching data.",
+  "Check internet connection. Try again..👋" : "Check internet connection. Try again..👋",
+  "Amount, Transaction Number fields are mandatory." : "Amount, Transaction Number fields are mandatory.",
+  "Payment method fields is mandatory. Try again..👋" : "Payment method fields is mandatory. Try again..👋",
+  "Deposit Successfully !" : "Deposit Successfully !",
+  "Enjoy your experience..👋" : "Enjoy your experience..👋",
+  "Deposit Unsuccessfull." : "Deposit Unsuccessfull.",
+  "Please try again." : "Please try again.",
+  "Amount, Mobile Number fields are mandatory." : "Amount, Mobile Number fields are mandatory.",
+  "Invalid Mobile Number!" : "Invalid Mobile Number!",
+  "Please enter valid mobile number (11 digits, starts with 01)." : "Please enter valid mobile number (11 digits, starts with 01)."
 }
