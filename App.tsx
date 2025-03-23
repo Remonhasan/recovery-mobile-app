@@ -28,6 +28,7 @@ import Refer from './components/Refer';
 import HelpLine from './components/HelpLine';
 import LanguageToggle from './lang/LanguageToggle';
 import NoticeBoard from './components/NoticeBoard';
+import ChangePassword from './components/ChangePassword';
 
 
 
@@ -144,6 +145,11 @@ function App(): React.JSX.Element {
           <Stack.Screen
             name="Register"
             component={Register}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ChangePassword"
+            component={ChangePassword}
             options={{ headerShown: false }}
           />
           <Stack.Screen

@@ -108,6 +108,13 @@ const LoginScreen = ({ navigation }) => {
         </View>
       </View>
 
+      <View style={styles.forgotContainer}>
+        <Text style={styles.registerText}>Forgot Password ?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('ChangePassword')}>
+          <Text style={styles.createAccountText}>Change Password</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Login Button */}
       <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
         {isLoading ? (
@@ -221,6 +228,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
+  },
+  forgotContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginTop: 2,
   },
   registerText: {
     fontSize: 16,
