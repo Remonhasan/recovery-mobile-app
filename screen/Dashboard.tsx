@@ -13,6 +13,7 @@ const Dashboard = ({ navigation }) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [showBalance, setShowBalance] = useState(false);
+  const [balance, setBalance] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -35,7 +36,7 @@ const Dashboard = ({ navigation }) => {
       });
 
       const json = await response.json();
-      setData(json);
+      setBalance(json?.balance);
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Error fetching data. Check internet connection.');
@@ -54,9 +55,12 @@ const Dashboard = ({ navigation }) => {
   };
 
   const toggleBalance = () => {
+    if (!showBalance && balance === null) {
+      loadData();
+    }
     setShowBalance((prev) => !prev);
   };
-
+  
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -73,7 +77,7 @@ const Dashboard = ({ navigation }) => {
           <Image source={require("../taka.png")} style={styles.icon} />
         </View>
         <Text style={styles.balanceText}>
-          {showBalance ? `৳ ${i18n.language === 'en' ? data?.balance : toBn(data?.balance)}` : t('Tap for Balance')}
+        {loading ? "Loading..." : showBalance ? `৳ ${i18n.language === 'en' ? balance : toBn(balance)}` : t('Tap for Balance')}
         </Text>
       </TouchableOpacity>
 
