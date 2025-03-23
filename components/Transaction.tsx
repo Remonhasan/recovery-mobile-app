@@ -88,9 +88,7 @@ const Transaction = () => {
     <View style={styles.row}>
       <Text style={styles.cell}>{formatDateTime(item.created_at)}</Text>
       <Text style={styles.cell}>{item.type}</Text>
-      <TouchableOpacity style={styles.actionButton}>
-        <Text style={styles.actionButtonText}>{item.amount}</Text>
-      </TouchableOpacity>
+      <Text style={styles.cell}>{item.amount}</Text>
     </View>
   );
 

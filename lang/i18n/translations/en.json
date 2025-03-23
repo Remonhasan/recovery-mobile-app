@@ -68,5 +68,8 @@
   "Invalid Mobile Number!" : "Invalid Mobile Number!",
   "Please enter valid mobile number (11 digits, starts with 01)." : "Please enter valid mobile number (11 digits, starts with 01).",
   "Loading..." : "Loading...",
-  "Loading, please wait..." : "Loading, please wait..."
+  "Loading, please wait..." : "Loading, please wait...",
+  "Duration : " : "Duration : ",
+  "Month" : "Month",
+  "Title" : "Title"
 }

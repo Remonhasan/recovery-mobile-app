@@ -99,6 +99,7 @@ const Package = () => {
   const cancelBuyNow = () => {
     setModalVisible(false);
   };
+  
 
   if (loading) {
     return (
@@ -115,9 +116,12 @@ const Package = () => {
       <View style={styles.packageContainer}>
         {data?.map((item) => (
           <View key={item.id} style={styles.card}>
-            <Text style={styles.cardTitle}>{item.name} | {t('Duration: ')} {item?.duration} {t('Month')}</Text>
-            <Text style={styles.cardPrice}>৳ {i18n.language == 'en' ? item.price : toBn(item.price)} </Text>
-            <Text style={styles.cardDescription}>{item.description}</Text>
+            <Text style={styles.cardTitle}>{item.name}</Text>
+            <Text style={styles.cardTitle}>
+              {t('Duration : ')} {i18n.language == 'en' ? item?.duration : toBn(item?.duration)} {t('Month')}
+            </Text>
+            <Text style={styles.cardPrice}>৳ {i18n.language == 'en' ? item?.price : toBn(item?.price)} </Text>
+            <Text style={styles.cardDescription}>{item?.description}</Text>
             <TouchableOpacity style={styles.buyButton} onPress={() => handleBuyNow(item?.id)}>
               <Text style={styles.buyButtonText}>{t('Buy Now')}</Text>
             </TouchableOpacity>

@@ -68,5 +68,8 @@
   "Invalid Mobile Number!": "মোবাইল নম্বর সঠিক নয়!",
   "Please enter valid mobile number (11 digits, starts with 01).": "সঠিক মোবাইল নম্বর প্রবেশ করুন (১১ ডিজিট, ০১ দিয়ে শুরু)।",
   "Loading..." : "অপেক্ষা করুন...",
-  "Loading, please wait..." : "লোড হচ্ছে, অপেক্ষা করুন..."
+  "Loading, please wait..." : "লোড হচ্ছে, অপেক্ষা করুন...",
+  "Duration : " : "সময়কাল : ",
+  "Month" : "মাস",
+  "Title" : "শিরোনাম"
 }
