@@ -24,6 +24,16 @@ const Register = ({ navigation }) => {
       return;
     }
 
+    const mobileRegex = /^01[3-9]\d{8}$/;
+    if (!mobileRegex.test(mobile)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Mobile Number!',
+        text2: 'Please enter a valid mobile number (11 digits, starts with 01).'
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     const payLoad = {
