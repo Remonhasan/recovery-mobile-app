@@ -77,7 +77,7 @@ const Dashboard = ({ navigation }) => {
           <Image source={require("../taka.png")} style={styles.icon} />
         </View>
         <Text style={styles.balanceText}>
-        {loading ? "Loading..." : showBalance ? `৳ ${i18n.language === 'en' ? balance : toBn(balance)}` : t('Tap for Balance')}
+        {loading ? t('Loading...') : showBalance ? `৳ ${i18n.language === 'en' ? balance : toBn(balance)}` : t('Tap for Balance')}
         </Text>
       </TouchableOpacity>
 

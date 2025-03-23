@@ -66,5 +66,6 @@
   "Please try again." : "Please try again.",
   "Amount, Mobile Number fields are mandatory." : "Amount, Mobile Number fields are mandatory.",
   "Invalid Mobile Number!" : "Invalid Mobile Number!",
-  "Please enter valid mobile number (11 digits, starts with 01)." : "Please enter valid mobile number (11 digits, starts with 01)."
+  "Please enter valid mobile number (11 digits, starts with 01)." : "Please enter valid mobile number (11 digits, starts with 01).",
+  "Loading..." : "Loading..."
 }
