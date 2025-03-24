@@ -74,7 +74,7 @@ const Dashboard = ({ navigation }) => {
       <Text style={styles.title}>{t('All Services')}</Text>
       <TouchableOpacity style={styles.button} onPress={toggleBalance}>
         <View style={styles.iconContainer}>
-          <Image source={require("../taka.png")} style={styles.icon} />
+          {/* <Image source={require("../money.png")} style={styles.icon} /> */}
         </View>
         <Text style={styles.balanceText}>
         {loading ? t('Loading...') : showBalance ? `৳ ${i18n.language === 'en' ? balance : toBn(balance)}` : t('Tap for Balance')}
@@ -137,7 +137,7 @@ const Dashboard = ({ navigation }) => {
           onPressOut={handlePressOut}
           onPress={() => navigation.navigate(t('Package'))}
         >
-          <Image source={require('../package.png')} style={styles.cardImage} />
+          <Image source={require('../offer.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Package')}</Text>
         </TouchableOpacity>
 
@@ -151,7 +151,7 @@ const Dashboard = ({ navigation }) => {
           onPressOut={handlePressOut}
           onPress={() => navigation.navigate(t('Profile'))}
         >
-          <Image source={require('../profile-update.png')} style={styles.cardImage} />
+          <Image source={require('../profile.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Profile')}</Text>
         </TouchableOpacity>
 

@@ -67,7 +67,7 @@ const Profile = () => {
       {/* User Info Section */}
       <View style={styles.userSection}>
         <Image
-          source={require('../profile-update.png')}
+          source={require('../profile.png')}
           style={styles.userImage}
         />
         <Text style={styles.userName}>{name}</Text>
