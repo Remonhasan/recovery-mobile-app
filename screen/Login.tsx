@@ -40,7 +40,7 @@ const LoginScreen = ({ navigation }) => {
 
       const data = await response.json();
   
-      if (data.success === true) { // check your json response
+      if (data.success === true) { 
         setIsLoading(false);
         
         const accessToken = data?.data.token;
@@ -59,14 +59,18 @@ const LoginScreen = ({ navigation }) => {
           text2: 'Welcome to Dashboard 👋'
         });
         navigation.navigate('DashboardTabs');
-      } else {
-        setIsLoading(false);
-        Alert.alert('Error', 'Invalid Credentials.' || 'Login failed.');
       }
     } catch (error) {
       setIsLoading(false);
-      console.log("login error:", error)
-      Alert.alert('Error', 'Check internet connection and valid credentials.');
+      
+      const parsedBody = JSON.parse(error.bodyString.trim());
+      const errorMessage = parsedBody.message;
+
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid credentials! Login Failed.',
+        text2: errorMessage
+      });
     }
   };
 

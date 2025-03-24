@@ -71,5 +71,10 @@
   "Loading, please wait..." : "লোড হচ্ছে, অপেক্ষা করুন...",
   "Duration : " : "সময়কাল : ",
   "Month" : "মাস",
-  "Title" : "শিরোনাম"
+  "Title" : "শিরোনাম",
+  "Bought Successfully !" : "সফলভাবে ক্রয় হয়েছে !",
+  "You bought the package successfully!" : "আপনি সফলভাবে প্যাকেজটি কিনেছেন !",
+  "Package Bought Unsuccessfull." : "প্যাকেজ ক্রয় সফল হয়নি।",
+  "View" : "দেখুন",
+  "Close" : "বন্ধ করুন"
 }

@@ -67,8 +67,8 @@ const NoticeBoard = () => {
   const renderItem = ({ item }: { item: { title: string; description: string; id: number } }) => (
     <View style={styles.row}>
       <Text style={styles.cell}>{item.title}</Text>
-      <TouchableOpacity style={styles.actionButton} onPress={() => openModal(item)}>
-        <Text style={styles.actionButtonText}>{t('View')}</Text>
+      <TouchableOpacity onPress={() => openModal(item)}>
+        <Text style={{ fontWeight : 'bold', fontSize : 15 }}>👁️‍🗨️ {t('View')}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    backgroundColor: '#0E9C7E',
+    backgroundColor: '#0E9C7E'
   },
   headerCell: {
     flex: 1,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   cell: {
     flex: 1,
-    textAlign: 'center',
+    alignItems: 'center'
   },
   actionButton: {
     flex: 1,

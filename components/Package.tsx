@@ -39,8 +39,11 @@ const Package = () => {
       const json = await response.json();
       setData(json.packages);
     } catch (error) {
-      console.error(error);
-      Alert.alert('Error','Error fetching data. Check internet connection.');
+      Toast.show({
+        type: 'error',
+        text1: t('Error fetching data.'),
+        text2: t('Check internet connection. Try again..👋')
+      });
     } finally {
       setLoading(false);
     }
@@ -86,7 +89,7 @@ const Package = () => {
 
       Toast.show({
         type: 'error',
-        text1: 'Package Bought Unsuccessfull.',
+        text1: t('Package Bought Unsuccessfull.'),
         text2: errorMessage
       });
 

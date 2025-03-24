@@ -151,7 +151,7 @@ const Dashboard = ({ navigation }) => {
           onPressOut={handlePressOut}
           onPress={() => navigation.navigate(t('Profile'))}
         >
-          <Image source={require('../profile.png')} style={styles.cardImage} />
+          <Image source={require('../profile-update.png')} style={styles.cardImage} />
           <Text style={styles.cardTitle}>{t('Profile')}</Text>
         </TouchableOpacity>
 

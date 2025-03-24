@@ -67,7 +67,7 @@ const Profile = () => {
       {/* User Info Section */}
       <View style={styles.userSection}>
         <Image
-          source={require('../profile.png')}
+          source={require('../profile-update.png')}
           style={styles.userImage}
         />
         <Text style={styles.userName}>{name}</Text>
@@ -75,7 +75,7 @@ const Profile = () => {
       </View>
 
       {/* Card Block Section */}
-      <View style={styles.cardSection}>
+      {/* <View style={styles.cardSection}>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>{t('Total Deposit')}</Text>
           <Text style={styles.cardValue}>{i18n.language == 'en' ? roundPrice(data?.totalDeposit?.price) : toBn(roundPrice(data?.totalDeposit?.price))}</Text>
@@ -88,23 +88,30 @@ const Profile = () => {
           <Text style={styles.cardTitle}>{t('Available Balance')}</Text>
           <Text style={styles.cardValue}>{i18n.language == 'en' ? roundPrice(data?.availableBalance) : toBn(roundPrice(data?.availableBalance))}</Text>
         </View>
-      </View>
+      </View> */}
 
       {/* Additional Info Section */}
       <View style={styles.infoSection}>
-        {/* <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>{t('Total Package')} :</Text>
-          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? 10 : toBn(10)}</Text>
-        </View> */}
-        {/* <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>{t('Total Refer Code')} :</Text>
-          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? 5 : toBn(5)}</Text>
+      <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>{t('Available Balance')} :</Text>
+          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? roundPrice(data?.availableBalance) : toBn(roundPrice(data?.availableBalance))}</Text>
         </View>
+      </View>
+      <View style={styles.infoSection}>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>{t('Total Referred')} :</Text>
-          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? 50 : toBn(50)}</Text>
-        </View> */}
-        <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>{t('Total Deposit')} :</Text>
+          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? roundPrice(data?.totalDeposit?.price) : toBn(roundPrice(data?.totalDeposit?.price))}</Text>
+        </View>
+      </View>
+      <View style={styles.infoSection}>
+      <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>{t('Total Withdraw')} :</Text>
+          <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? roundPrice(data?.totalWithdraw) : toBn(roundPrice(data?.totalWithdraw))}</Text>
+        </View>
+      </View>
+      
+      <View style={styles.infoSection}>
+      <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>{t('Completed Tasks')} :</Text>
           <Text style={styles.infoValue}>৳ {i18n.language == 'en' ? data?.completeJob : toBn(data?.completeJob)}</Text>
         </View>
@@ -169,12 +176,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#0E9C7E',
     borderWidth: 2,
+    marginTop: 5,
+    borderTopColor: '#0E9C7E',
+    borderTopWidth: 5
   },
   infoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 10,
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
   infoLabel: {

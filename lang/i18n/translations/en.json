@@ -71,5 +71,10 @@
   "Loading, please wait..." : "Loading, please wait...",
   "Duration : " : "Duration : ",
   "Month" : "Month",
-  "Title" : "Title"
+  "Title" : "Title",
+  "Bought Successfully !" : "Bought Successfully !",
+  "You bought the package successfully!" : "You bought the package successfully!",
+  "Package Bought Unsuccessfull." : "Package Bought Unsuccessfull.",
+  "View" : "View",
+  "Close" : "Close"
 }
