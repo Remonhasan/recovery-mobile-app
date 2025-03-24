@@ -220,11 +220,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E3FFF5',
   },
   logoContainer: {
     alignItems: 'center',
-    marginTop: 10,
+    // marginTop: 10,
   },
   welcomlogo: {
     width: 800,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     borderTopColor: '#0E9C7E',
     borderTopWidth: 5,
-    borderColor: '#0E9C7E',
+    borderColor: '#a70000',
     borderWidth: 1,
     transition: 'all 0.3s ease', // This won't work in React Native, but it's included for reference.
   },
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   balanceText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: "#0E9C7E",
+    color: "#a70000",
   },
   button: {
     flexDirection: "row",

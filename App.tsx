@@ -91,10 +91,10 @@ const DashboardTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: '#4CAF50',
+        tabBarActiveTintColor: '#06402B',
         tabBarInactiveTintColor: '#B0B0B0',
         tabBarStyle: {
-          backgroundColor: '#ffff',
+          backgroundColor: '#E3FFF5',
           borderTopWidth: 0,
         },
       }}
@@ -103,7 +103,7 @@ const DashboardTabs = () => {
         name={t('Dashboard')}
         component={Dashboard}
         options={{
-          headerStyle: { backgroundColor: '#ffff' },
+          headerStyle: { backgroundColor: '#E3FFF5' },
           headerRight: () => (
             <View style={{ marginRight: 15 }}>
               <LanguageToggle />
