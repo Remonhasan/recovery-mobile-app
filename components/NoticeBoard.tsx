@@ -53,7 +53,7 @@ const NoticeBoard = () => {
     });
     setModalVisible(true);
   };
-  
+
 
   const closeModal = () => {
     setModalVisible(false);
@@ -68,7 +68,7 @@ const NoticeBoard = () => {
     <View style={styles.row}>
       <Text style={styles.cell}>{item.title}</Text>
       <TouchableOpacity onPress={() => openModal(item)}>
-        <Text style={{ fontWeight : 'bold', fontSize : 15 }}>👁️‍🗨️ {t('View')}</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 15 }}>👁️‍🗨️ {t('View')}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -78,7 +78,10 @@ const NoticeBoard = () => {
       <Text style={styles.header}>{t('Notice Board')}</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#17A2B8" />
+          <Text style={styles.loadingText}>{t('Loading, please wait...')}</Text>
+        </View>
       ) : error ? (
         <Text style={styles.errorText}>{error}</Text>
       ) : (
@@ -206,6 +209,17 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  loadingText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#17A2B8',
   }
 });
 

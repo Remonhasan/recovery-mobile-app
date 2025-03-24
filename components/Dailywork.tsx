@@ -91,9 +91,14 @@ const Dailywork = () => {
   const renderItem = ({ item }: { item: { title: string; status: string; id: number; link: string } }) => (
     <View style={styles.row}>
       <Text style={styles.cell}>{item.title}</Text>
-      <Text style={styles.cell}>{item.status}</Text>
-      <TouchableOpacity style={styles.actionButton} onPress={() => handleViewLink(item)}>
-        <Text style={styles.actionButtonText}>{t('View')}</Text>
+      {item?.status === 'INACTIVE' ? (<>
+        <Text style={styles.inactiveCell}>{item?.status}</Text>
+      </>) : (<>
+        <Text style={styles.activeCell}>{item?.status}</Text>
+      </>)}
+      
+      <TouchableOpacity onPress={() => handleViewLink(item)}>
+        <Text style={{ fontWeight: 'bold', fontSize: 15, textAlign: 'left' }}>👁️‍🗨️ {t('View')}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -166,8 +171,17 @@ const styles = StyleSheet.create({
     borderBottomColor: '#eee',
   },
   cell: {
-    flex: 1,
-    textAlign: 'center',
+    textAlign: 'left'
+  },
+  inactiveCell: {
+    color: 'red', // Red text for inactive
+    fontWeight: 'bold',
+    textAlign: 'left', // Center text
+  },
+  activeCell: {
+    color: 'green', // Green text for active
+    fontWeight: 'bold',
+    textAlign: 'left', // Center text
   },
   actionButton: {
     flex: 1,
@@ -200,7 +214,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
     padding: 16,
   },
   loadingText: {

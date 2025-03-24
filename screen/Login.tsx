@@ -3,11 +3,28 @@ import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Image } from 'react-native';
+import * as Keychain from 'react-native-keychain';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    loadSavedCredentials();
+  }, []);
+
+  const loadSavedCredentials = async () => {
+    try {
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        setEmail(credentials.username);
+        setPassword(credentials.password);
+      }
+    } catch (error) {
+      console.log('Failed to load saved credentials', error);
+    }
+  };
 
   const handleLogin = async () => {
     if (email.trim() === '' || password.trim() === '') {

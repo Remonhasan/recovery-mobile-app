@@ -56,7 +56,7 @@ const Transaction = () => {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert('Error','Error fetching data. Check internet connection.');
+      Alert.alert('Error', 'Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);
       setIsFetchingMore(false);
@@ -97,7 +97,10 @@ const Transaction = () => {
       <Text style={styles.header}>{t('Your Transactions')}</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#17A2B8" />
+          <Text style={styles.loadingText}>{t('Loading, please wait...')}</Text>
+        </View>
       ) : error ? (
         <Text style={styles.errorText}>{error}</Text>
       ) : (
@@ -114,7 +117,13 @@ const Transaction = () => {
             onEndReached={loadMoreData} // Load more when scrolling to the end
             onEndReachedThreshold={0.5} // Trigger when halfway down
             ListFooterComponent={
-              isFetchingMore ? <ActivityIndicator size="small" color="0000ff" /> : null
+              isFetchingMore ?
+                // <ActivityIndicator size="large" color="#17A2B8" /> 
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator size="large" color="#17A2B8" />
+                  <Text style={styles.loadingText}>{t('Loading, please wait...')}</Text>
+                </View>
+                : null
             }
           />
         </>
@@ -176,6 +185,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  loadingText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#17A2B8',
+  }
 });
 
 export default Transaction;
