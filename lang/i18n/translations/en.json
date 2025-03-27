@@ -76,5 +76,9 @@
   "You bought the package successfully!" : "You bought the package successfully!",
   "Package Bought Unsuccessfull." : "Package Bought Unsuccessfull.",
   "View" : "View",
-  "Close" : "Close"
+  "Close" : "Close",
+  "Copied Successfully !" : "Copied Successfully !",
+  "Your referral link has been copied." : "Your referral link has been copied.",
+  "Withdraw Unsuccessful !" : "Withdraw Unsuccessful !",
+  "Unable to withdraw !" : "Unable to withdraw !"
 }

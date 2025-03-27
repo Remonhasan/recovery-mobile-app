@@ -116,7 +116,7 @@ const Withdraw = () => {
           type: 'error',
           position: 'top',
           text1: t('Withdraw Unsuccessful !'),
-          text2: t('Unable to withdraw deposit !')
+          text2: t('Unable to withdraw !')
         });
       }
     } catch (error) {
@@ -126,7 +126,7 @@ const Withdraw = () => {
 
       Toast.show({
         type: 'error',
-        text1: t('Withdraw Unsuccessfull.'),
+        text1: t('Withdraw Unsuccessful !'),
         text2: errorMessage
       });
     }
