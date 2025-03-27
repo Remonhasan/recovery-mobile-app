@@ -28,7 +28,7 @@ const Dashboard = ({ navigation }) => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = 'https://tr.recoveryitltd.com/api/balance';
+      const apiUrl = 'https://recoveryitltd.com/api/balance';
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,

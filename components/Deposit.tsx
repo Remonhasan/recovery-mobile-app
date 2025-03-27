@@ -29,7 +29,7 @@ const Deposit = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = 'https://tr.recoveryitltd.com/api/balance';
+      const apiUrl = 'https://recoveryitltd.com/api/balance';
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,
@@ -85,7 +85,7 @@ const Deposit = () => {
         'Content-Type': 'application/json',
       };
 
-      const response = await fetch('https://tr.recoveryitltd.com/api/deposit', {
+      const response = await fetch('https://recoveryitltd.com/api/deposit', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(payload),

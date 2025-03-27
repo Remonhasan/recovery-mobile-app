@@ -22,7 +22,7 @@ const Refer = () => {
 
   // Handle the copy action
   const handleCopy = () => {
-    const referralUrl = `https://tr.recoveryitltd.com/registration?ref=${username}`;
+    const referralUrl = `https://recoveryitltd.com/registration?ref=${username}`;
     Clipboard.setString(referralUrl);
     Toast.show({
       type: 'success',
@@ -44,7 +44,7 @@ const Refer = () => {
         <TextInput
           style={styles.inputBox}
           placeholder={t('Enter your referral URL')}
-          value={`https://tr.recoveryitltd.com/registration?ref=${name}`}
+          value={`https://recoveryitltd.com/registration?ref=${username}`}
           editable={false} // Make the TextInput non-editable as it's showing the referral link
         />
         <TouchableOpacity style={styles.copyButton} onPress={handleCopy}>

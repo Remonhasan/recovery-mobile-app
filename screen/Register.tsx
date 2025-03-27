@@ -47,7 +47,7 @@ const Register = ({ navigation }) => {
       reffered_by: refferName
     };
     try {
-      const response = await fetch('https://tr.recoveryitltd.com/api/registration', {
+      const response = await fetch('https://recoveryitltd.com/api/registration', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

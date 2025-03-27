@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetch } from 'react-native-ssl-pinning';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { toBn } from '../utils/util';
 
@@ -36,7 +36,7 @@ const Profile = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = 'https://tr.recoveryitltd.com/api/profile';
+      const apiUrl = 'https://recoveryitltd.com/api/profile';
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,
@@ -47,11 +47,11 @@ const Profile = () => {
         const responseData = await response.json();
         setData(responseData);
       } else {
-        setError('Error fetching data');
+        Alert.alert('Error','Error fetching data');
       }
     } catch (error) {
       console.error(error);
-      setError('Error fetching data. Check internet connection.');
+      Alert.alert('Error','Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);
     }

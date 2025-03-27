@@ -29,7 +29,7 @@ const Package = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = 'https://tr.recoveryitltd.com/api/package';
+      const apiUrl = 'https://recoveryitltd.com/api/package';
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,
@@ -63,7 +63,7 @@ const Package = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = `https://tr.recoveryitltd.com/api/buy-package/${selectedPackageId}`;
+      const apiUrl = `https://recoveryitltd.com/api/buy-package/${selectedPackageId}`;
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,

@@ -37,7 +37,7 @@ const ChangePassword = () => {
     };
    
     try {
-      const response = await fetch('https://tr.recoveryitltd.com/api/change-password', {
+      const response = await fetch('https://recoveryitltd.com/api/change-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

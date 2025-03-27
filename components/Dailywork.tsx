@@ -25,7 +25,7 @@ const Dailywork = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = 'https://tr.recoveryitltd.com/api/daily-work';
+      const apiUrl = 'https://recoveryitltd.com/api/daily-work';
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,
@@ -36,11 +36,11 @@ const Dailywork = () => {
         const json = await response.json();
         setData(json.withdraw || []);
       } else {
-        setError('Error fetching data');
+        Alert.alert('Error','Error fetching data');
       }
     } catch (error) {
-      console.error(error);
-      setError('Error fetching data. Check internet connection.');
+      // console.error(error);
+      Alert.alert('Error','Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);
     }
@@ -60,7 +60,7 @@ const Dailywork = () => {
         'Content-Type': 'application/json',
       };
 
-      const response = await fetch('https://tr.recoveryitltd.com/api/daily-work-action', {
+      const response = await fetch('https://recoveryitltd.com/api/daily-work-action', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(payload),

@@ -33,7 +33,7 @@ const Transaction = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = `https://tr.recoveryitltd.com/api/transaction?page=${pageNumber}`;
+      const apiUrl = `https://recoveryitltd.com/api/transaction?page=${pageNumber}`;
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,
@@ -52,10 +52,10 @@ const Transaction = () => {
 
         setHasMore(newData.length > 0); // If no new data, stop fetching
       } else {
-        setError('Error fetching data');
+        Alert.alert('Error','Error fetching data');
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       Alert.alert('Error', 'Error fetching data. Check internet connection.');
     } finally {
       setLoading(false);

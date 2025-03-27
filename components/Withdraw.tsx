@@ -29,7 +29,7 @@ const Withdraw = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = 'https://tr.recoveryitltd.com/api/balance';
+      const apiUrl = 'https://recoveryitltd.com/api/balance';
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,
@@ -94,7 +94,7 @@ const Withdraw = () => {
         'Content-Type': 'application/json',
       };
 
-      const response = await fetch('https://tr.recoveryitltd.com/api/withdraw', {
+      const response = await fetch('https://recoveryitltd.com/api/withdraw', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(payload),
