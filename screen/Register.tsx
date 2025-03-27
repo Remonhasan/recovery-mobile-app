@@ -12,6 +12,8 @@ const Register = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [refferName, setRefferName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isReferred, setIsReferred] = useState(null);
+  
 
   const handleRegister = async () => {
     if (name.trim() === '' || username.trim() === '' || password.trim() === '' || confirmPassword.trim() === '' || mobile.trim() === '') {
@@ -170,7 +172,20 @@ const Register = ({ navigation }) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Reffered By</Text>
+        <Text style={styles.inputLabel}>Are you referred by someone?</Text>
+        <View style={styles.radioContainer}>
+          <TouchableOpacity onPress={() => setIsReferred(true)} style={[styles.radioButton, isReferred === true && styles.selected]}>
+            <Text>Yes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsReferred(false)} style={[styles.radioButton, isReferred === false && styles.selected]}>
+            <Text>No</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      
+      {isReferred && (
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputLabel}>Referred By</Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
@@ -180,6 +195,7 @@ const Register = ({ navigation }) => {
           />
         </View>
       </View>
+       )}
 
       {/* Register Button */}
       <TouchableOpacity style={styles.button} disabled={isLoading} onPress={handleRegister}>
@@ -277,6 +293,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 5,
   },
+  radioContainer: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between' 
+  },
+  radioButton: { 
+    padding: 10, 
+    borderWidth: 1, 
+    borderColor: '#ccc', 
+    borderRadius: 5, 
+    flex: 1, 
+    alignItems: 'center', 
+    marginHorizontal: 5 
+  },
+  selected: { 
+    backgroundColor: '#ddd' 
+  }
 });
 
 export default Register;
