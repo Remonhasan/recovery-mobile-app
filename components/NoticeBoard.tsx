@@ -25,7 +25,7 @@ const NoticeBoard = () => {
         'Content-Type': 'application/json',
       };
 
-      const apiUrl = 'https://tr.recoveryitltd.com/api/notice-board';
+      const apiUrl = 'https://recoveryitltd.com/api/notice-board';
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: headers,

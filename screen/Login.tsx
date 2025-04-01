@@ -60,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
       if (data.success === true) { 
         setIsLoading(false);
         
-        const accessToken = data?.data.token;
+        const accessToken = data?.data.token; 
         const accessName = data?.data.name;
         const accessUserName = data?.data.username;
         const accessPhone = data?.data.phone;
